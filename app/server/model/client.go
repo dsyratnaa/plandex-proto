@@ -184,7 +184,61 @@ func createChatCompletionStreamExtended(
 	if openaiReq != nil {
 		jsonBody, err = json.Marshal(openaiReq)
 	} else {
-		jsonBody, err = json.Marshal(extendedReq)
+		// For custom providers, or any other case not handled by direct OpenAI,
+		// we need to ensure messages are in the standard OpenAI format,
+		// especially for content (string vs. array of parts).
+		// The ToOpenAI() method on ExtendedChatMessage handles this.
+		// We construct a temporary struct that mirrors openai.ChatCompletionRequest
+		// to ensure correct marshalling.
+		tempReqForMarshal := struct {
+			Model            string                               `json:"model"`
+			Messages         []openai.ChatCompletionMessage       `json:"messages"`
+			MaxTokens        int                                  `json:"max_tokens,omitempty"`
+			Temperature      float32                              `json:"temperature,omitempty"`
+			TopP             float32                              `json:"top_p,omitempty"`
+			N                int                                  `json:"n,omitempty"`
+			Stream           bool                                 `json:"stream,omitempty"`
+			Stop             []string                             `json:"stop,omitempty"`
+			PresencePenalty  float32                              `json:"presence_penalty,omitempty"`
+			FrequencyPenalty float32                              `json:"frequency_penalty,omitempty"`
+			LogitBias        map[string]int                       `json:"logit_bias,omitempty"`
+			User             string                               `json:"user,omitempty"`
+			Seed             *int                                 `json:"seed,omitempty"`
+			Tools            []openai.Tool                        `json:"tools,omitempty"`
+			ToolChoice       interface{}                          `json:"tool_choice,omitempty"` // Can be string or object (e.g. openai.ToolChoice)
+			ResponseFormat   *openai.ChatCompletionResponseFormat `json:"response_format,omitempty"`
+		}{
+			Model:            string(extendedReq.Model),
+			MaxTokens:        extendedReq.MaxTokens,
+			Temperature:      extendedReq.Temperature,
+			TopP:             extendedReq.TopP,
+			N:                extendedReq.N,
+			Stream:           extendedReq.Stream, // This should generally be true for streaming
+			Stop:             extendedReq.Stop,
+			PresencePenalty:  extendedReq.PresencePenalty,
+			FrequencyPenalty: extendedReq.FrequencyPenalty,
+			LogitBias:        extendedReq.LogitBias,
+			User:             extendedReq.User,
+			Seed:             extendedReq.Seed,
+			Tools:            extendedReq.Tools,
+			ToolChoice:       extendedReq.ToolChoice,
+			ResponseFormat:   extendedReq.ResponseFormat,
+		}
+
+		tempReqForMarshal.Messages = make([]openai.ChatCompletionMessage, len(extendedReq.Messages))
+		for i, extMsg := range extendedReq.Messages {
+			// extMsg is of type types.ExtendedChatMessage
+			// ToOpenAI() converts it to *openai.ChatCompletionMessage,
+			// correctly handling the Content field (string for simple text).
+			openAIMsg := extMsg.ToOpenAI()
+			if openAIMsg != nil {
+				tempReqForMarshal.Messages[i] = *openAIMsg
+			}
+			// If openAIMsg is nil (e.g., due to an issue with extMsg),
+			// it will result in a zero-value ChatCompletionMessage at that index,
+			// which might need further error handling depending on API strictness.
+		}
+		jsonBody, err = json.Marshal(tempReqForMarshal)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling request: %w", err)
