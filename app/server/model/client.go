@@ -215,7 +215,9 @@ func createChatCompletionStreamExtended(
 		req.Header.Set("OpenAI-Organization", client.OrgId)
 	}
 
-	addOpenRouterHeaders(req)
+	if modelConfig.BaseModelConfig.Provider != shared.ModelProviderCustom {
+		addOpenRouterHeaders(req)
+	}
 
 	// Send the request
 	resp, err := httpClient.Do(req) //nolint:bodyclose // body is closed in stream.Close()
