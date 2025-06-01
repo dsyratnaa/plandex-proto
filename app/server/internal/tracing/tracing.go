@@ -41,17 +41,11 @@ func InitTracer(serviceName string) (func(context.Context) error, error) {
 	// No explicit "OTEL_EXPORTER_OTLP_PROTOCOL" needed for otlptracehttp if endpoint is correct.
 
 	// Configure resource attributes (service.name, etc.)
-	res, err := resource.Merge(
-		resource.Default(),
-		resource.NewWithAttributes(
-			semconv.SchemaURL,
-			semconv.ServiceNameKey.String(serviceName),
-			semconv.ServiceVersionKey.String("0.1.0"), // Replace with your app's version
-		),
+	res := resource.NewWithAttributes(
+		semconv.SchemaURL,
+		semconv.ServiceNameKey.String(serviceName),
+		semconv.ServiceVersionKey.String("0.1.0"), // Replace with your app's version
 	)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create resource: %w", err)
-	}
 	log.Printf("[TRACING] OpenTelemetry resource configured for service: %s", serviceName)
 
 	// Configure OTLP HTTP exporter options
