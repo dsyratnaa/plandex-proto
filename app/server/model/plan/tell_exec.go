@@ -1,6 +1,7 @@
 package plan
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,10 +19,30 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
 	"github.com/sashabaranov/go-openai"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 )
 
 func Tell(clients map[string]model.ClientInfo, plan *db.Plan, branch string, auth *types.ServerAuth, req *shared.TellPlanRequest) error {
-	log.Printf("Tell: Called with plan ID %s on branch %s\n", plan.Id, branch)
+	// Start OpenTelemetry span for Tell operation
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(context.Background(), "plan.Tell",
+		trace.WithAttributes(
+			attribute.String("plan.id", plan.Id),
+			attribute.String("plan.branch", branch),
+			attribute.String("user.id", auth.User.Id),
+			attribute.String("org.id", auth.OrgId),
+			attribute.String("prompt", req.Prompt),
+			attribute.Bool("auto_context", req.AutoContext),
+			attribute.Bool("is_chat_only", req.IsChatOnly),
+			attribute.String("build_mode", string(req.BuildMode)),
+		),
+	)
+	defer span.End()
+
+	log.Printf("Tell: Called with plan ID %s on branch %s (TraceID: %s)\n", plan.Id, branch, span.SpanContext().TraceID().String())
 
 	_, err := activatePlan(
 		clients,
@@ -36,10 +57,13 @@ func Tell(clients map[string]model.ClientInfo, plan *db.Plan, branch string, aut
 
 	if err != nil {
 		log.Printf("Error activating plan: %v\n", err)
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Failed to activate plan")
 		return err
 	}
 
-	go execTellPlan(execTellPlanParams{
+	// Pass context to execTellPlan goroutine
+	go execTellPlanWithContext(ctx, execTellPlanParams{
 		clients:            clients,
 		plan:               plan,
 		branch:             branch,
@@ -49,7 +73,8 @@ func Tell(clients map[string]model.ClientInfo, plan *db.Plan, branch string, aut
 		shouldBuildPending: !req.IsChatOnly && req.BuildMode == shared.BuildModeAuto,
 	})
 
-	log.Printf("Tell: Tell operation completed successfully for plan ID %s on branch %s\n", plan.Id, branch)
+	log.Printf("Tell: Tell operation completed successfully for plan ID %s on branch %s (TraceID: %s)\n", plan.Id, branch, span.SpanContext().TraceID().String())
+	span.SetStatus(codes.Ok, "Tell operation initiated successfully")
 	return nil
 }
 
@@ -63,6 +88,29 @@ type execTellPlanParams struct {
 	missingFileResponse        shared.RespondMissingFileChoice
 	shouldBuildPending         bool
 	unfinishedSubtaskReasoning string
+}
+
+// execTellPlanWithContext wraps execTellPlan with OpenTelemetry context propagation
+func execTellPlanWithContext(ctx context.Context, params execTellPlanParams) {
+	// Start a new span for the execTellPlan operation
+	tracer := otel.Tracer("plandex-server")
+	_, span := tracer.Start(ctx, "plan.execTellPlan",
+		trace.WithAttributes(
+			attribute.String("plan.id", params.plan.Id),
+			attribute.String("plan.branch", params.branch),
+			attribute.Int("iteration", params.iteration),
+			attribute.Bool("should_build_pending", params.shouldBuildPending),
+		),
+	)
+	defer span.End()
+
+	log.Printf("[TellExec] Starting iteration %d for plan %s on branch %s (TraceID: %s)",
+		params.iteration, params.plan.Id, params.branch, span.SpanContext().TraceID().String())
+
+	// Call the original execTellPlan function
+	execTellPlan(params)
+
+	span.SetStatus(codes.Ok, "execTellPlan completed")
 }
 
 func execTellPlan(params execTellPlanParams) {
