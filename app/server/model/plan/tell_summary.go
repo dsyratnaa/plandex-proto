@@ -383,6 +383,9 @@ func summarizeConvo(clients map[string]model.ClientInfo, config shared.ModelRole
 	// latestSummaryCh := make(chan *db.ConvoSummary, 1)
 	// active.LatestSummaryCh = latestSummaryCh
 
+	log.Printf("summarizeConvo: Clients map before calling model.PlanSummary: %s", spew.Sdump(clients))
+	log.Printf("summarizeConvo: ModelRoleConfig before calling model.PlanSummary: %s", spew.Sdump(config))
+
 	summary, apiErr := model.PlanSummary(clients, config, model.PlanSummaryParams{
 		Conversation:                summaryMessages,
 		ConversationNumTokens:       numTokens,

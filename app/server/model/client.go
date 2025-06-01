@@ -269,7 +269,13 @@ func createChatCompletionStreamExtended(
 		req.Header.Set("OpenAI-Organization", client.OrgId)
 	}
 
-	if modelConfig.BaseModelConfig.Provider != shared.ModelProviderCustom {
+	// Add OpenRouter headers if it's an OpenRouter provider OR
+	// if it's a Custom provider named "gemivertest" (or other OpenRouter-compatible custom providers)
+	if modelConfig.BaseModelConfig.Provider == shared.ModelProviderOpenRouter ||
+		(modelConfig.BaseModelConfig.Provider == shared.ModelProviderCustom &&
+			modelConfig.BaseModelConfig.CustomProvider != nil &&
+			(*modelConfig.BaseModelConfig.CustomProvider == "openrouter" || *modelConfig.BaseModelConfig.CustomProvider == "openrouter/auto" || *modelConfig.BaseModelConfig.CustomProvider == "gemivertest")) {
+		log.Println("DEBUG: Adding OpenRouter headers for provider:", modelConfig.BaseModelConfig.Provider, "CustomProvider:", modelConfig.BaseModelConfig.CustomProvider)
 		addOpenRouterHeaders(req)
 	}
 

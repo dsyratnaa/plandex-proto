@@ -1,0 +1,30 @@
+2025/05/27 19:28:57 Plandex server home dir: /home/new
+2025/05/27 19:28:57 os.Getenv(PLANDEX_BASE_DIR): /tmp/plandex_server_data
+2025/05/27 19:28:57 GOENV: development
+2025/05/27 19:28:57 Local mode enabled
+2025/05/27 19:28:57 File system dir: /tmp/plandex_server_data
+2025/05/27 19:28:57 fileMapMaxConcurrency: 6
+2025/05/27 19:28:57.718922 db.go:55: connected to database
+2025/05/27 19:28:57.721164 db.go:91: 
+
+Database settings:
+- idle_in_transaction_session_timeout = 90000 ms (context: user)
+- lock_timeout = 4000 ms (context: user)
+- statement_timeout = 30000 ms (context: user)
+- TimeZone = UTC (context: user)
+
+2025/05/27 19:28:57.732171 db.go:163: migration state is up to date
+2025/05/27 19:28:57.738167 setup.go:65: In development mode.
+2025/05/27 19:28:57.738268 setup.go:110: Started Plandex server on port 8099
+2025/05/27 19:31:19.046424 setup.go:122: Received signal terminated, shutting down gracefully...
+2025/05/27 19:31:19.046958 setup.go:132: Waiting for active plans to complete...
+2025/05/27 19:31:20.047472 setup.go:142: All active plans finished.
+2025/05/27 19:31:20.047624 setup.go:146: Cleaning up any remaining locks...
+2025/05/27 19:31:20.047635 locks.go:604: Cleaning up any active repo locks...
+2025/05/27 19:31:20.050494 locks.go:656: Successfully cleaned up all repo locks
+2025/05/27 19:31:20.050592 setup.go:157: All cleanup tasks completed
+2025/05/27 19:31:20.050606 setup.go:161: Shutting down http server...
+2025/05/27 19:31:20.050812 setup.go:170: Executing shutdown hooks...
+2025/05/27 19:31:20.050851 setup.go:175: Shutdown complete
+2025/05/27 19:31:20.050865 setup.go:73: Closing database connection...
+2025/05/27 19:31:20.050972 setup.go:78: Database connection closed
