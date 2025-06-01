@@ -18,6 +18,10 @@ import (
 	shared "plandex-shared"
 
 	"github.com/sashabaranov/go-openai"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 )
 
 // note that we are *only* using streaming requests now
@@ -172,6 +176,24 @@ func createChatCompletionStreamExtended(
 	ctx context.Context,
 	extendedReq types.ExtendedChatCompletionRequest,
 ) (*ExtendedChatCompletionStream, error) {
+	// Start OpenTelemetry span for LLM API call
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(ctx, "llm.chat_completion_stream",
+		trace.WithAttributes(
+			attribute.String("llm.provider", string(modelConfig.BaseModelConfig.Provider)),
+			attribute.String("llm.model", string(extendedReq.Model)),
+			attribute.String("llm.api_key_env_var", modelConfig.BaseModelConfig.ApiKeyEnvVar),
+			attribute.String("llm.base_url", baseUrl),
+			attribute.Int("llm.message_count", len(extendedReq.Messages)),
+			attribute.Float64("llm.temperature", float64(extendedReq.Temperature)),
+			attribute.Float64("llm.top_p", float64(extendedReq.TopP)),
+			attribute.Bool("llm.stream", extendedReq.Stream),
+		),
+	)
+	defer span.End()
+
+	log.Printf("LLM API call starting - Model: %s, Provider: %s (TraceID: %s)",
+		extendedReq.Model, modelConfig.BaseModelConfig.Provider, span.SpanContext().TraceID().String())
 	var openaiReq *types.ExtendedOpenAIChatCompletionRequest
 	if modelConfig.BaseModelConfig.Provider == shared.ModelProviderOpenAI && !modelConfig.BaseModelConfig.UsesOpenAIResponsesAPI {
 		openaiReq = extendedReq.ToOpenAI()
@@ -282,21 +304,39 @@ func createChatCompletionStreamExtended(
 	// Send the request
 	resp, err := httpClient.Do(req) //nolint:bodyclose // body is closed in stream.Close()
 	if err != nil {
+		span.RecordError(err)
+		span.SetStatus(codes.Error, fmt.Sprintf("HTTP request failed: %v", err))
 		return nil, fmt.Errorf("error making request: %w", err)
 	}
+
+	// Add HTTP response attributes to span
+	span.SetAttributes(
+		attribute.Int("http.status_code", resp.StatusCode),
+		attribute.String("http.url", url),
+		attribute.String("http.method", "POST"),
+	)
 
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusBadRequest {
 		defer resp.Body.Close()
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, fmt.Sprintf("Failed to read error response: %v", err))
 			return nil, fmt.Errorf("error reading error response: %w", err)
 		}
-		return nil, &HTTPError{
+
+		httpErr := &HTTPError{
 			StatusCode: resp.StatusCode,
 			Body:       string(body),
 			Header:     resp.Header.Clone(), // retain Retry-After etc.
 		}
+		span.RecordError(httpErr)
+		span.SetStatus(codes.Error, fmt.Sprintf("HTTP %d: %s", resp.StatusCode, string(body)))
+		return nil, httpErr
 	}
+
+	// Mark span as successful
+	span.SetStatus(codes.Ok, "LLM API call successful")
 
 	// Log response headers
 	// log.Println("Response headers:")
@@ -311,6 +351,9 @@ func createChatCompletionStreamExtended(
 		errAccumulator:     NewErrorAccumulator(),
 		unmarshaler:        &JSONUnmarshaler{},
 	}
+
+	log.Printf("LLM API call successful - Status: %d (TraceID: %s)",
+		resp.StatusCode, span.SpanContext().TraceID().String())
 
 	return &ExtendedChatCompletionStream{
 		customReader: reader,
