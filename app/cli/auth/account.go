@@ -78,6 +78,14 @@ func SelectOrSignInOrCreate() error {
 	term.StopSpinner()
 
 	if apiErr != nil {
+		if apiErr.Type == shared.ApiErrorTypeInvalidToken {
+			fmt.Println("Stale credentials detected. Clearing accounts and restarting sign-in...")
+			err := ClearAccounts()
+			if err != nil {
+				return fmt.Errorf("error clearing accounts: %v", err)
+			}
+			return SelectOrSignInOrCreate()
+		}
 		return fmt.Errorf("error listing orgs: %v", apiErr.Msg)
 	}
 

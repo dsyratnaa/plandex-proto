@@ -50,7 +50,7 @@ func InitTracer(serviceName string) (func(context.Context) error, error) {
 
 	// Configure OTLP HTTP exporter options
 	opts := []otlptracehttp.Option{
-		otlptracehttp.WithEndpoint(otelExporterOTLPEndpoint), // e.g., "logfire-api.pydantic.dev" or "logfire-api.pydantic.dev:443"
+		otlptracehttp.WithEndpoint(strings.TrimPrefix(otelExporterOTLPEndpoint, "https://")), // e.g., "logfire-api.pydantic.dev" or "logfire-api.pydantic.dev:443"
 		otlptracehttp.WithHeaders(map[string]string{
 			"Authorization": fmt.Sprintf("Bearer %s", logfireToken), // Standard Bearer token
 			"Content-Type":  "application/x-protobuf",               // Logfire expects protobuf

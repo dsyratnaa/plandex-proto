@@ -100,6 +100,9 @@ func execTellPlanWithContext(ctx context.Context, params execTellPlanParams) {
 			attribute.String("plan.branch", params.branch),
 			attribute.Int("iteration", params.iteration),
 			attribute.Bool("should_build_pending", params.shouldBuildPending),
+			attribute.String("session.id", params.req.SessionId),
+			attribute.String("missing_file_response", string(params.missingFileResponse)),
+			attribute.String("unfinished_subtask_reasoning", params.unfinishedSubtaskReasoning),
 		),
 	)
 	defer span.End()

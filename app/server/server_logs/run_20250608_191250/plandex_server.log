@@ -1,0 +1,7 @@
+2025/06/08 19:12:50 Plandex server home dir: /home/new
+2025/06/08 19:12:50 os.Getenv(PLANDEX_BASE_DIR): 
+2025/06/08 19:12:50 GOENV: 
+2025/06/08 19:12:50 File system dir: /plandex-server
+2025/06/08 19:12:50 fileMapMaxConcurrency: 6
+2025/06/08 19:12:50.727495 tracing.go:30: [TRACING] LOGFIRE_TOKEN found.
+2025/06/08 19:12:50.727656 main.go:30: ❌ Failed to initialize OpenTelemetry tracer: failed to create resource: conflicting Schema URL: https://opentelemetry.io/schemas/1.26.0 and https://opentelemetry.io/schemas/1.22.0

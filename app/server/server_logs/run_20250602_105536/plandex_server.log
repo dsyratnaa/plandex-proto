@@ -1,0 +1,863 @@
+2025/06/02 10:56:12 Plandex server home dir: /home/new
+2025/06/02 10:56:12 os.Getenv(PLANDEX_BASE_DIR): /tmp/plandex_server_data
+2025/06/02 10:56:12 GOENV: development
+2025/06/02 10:56:12 Local mode enabled
+2025/06/02 10:56:12 File system dir: /tmp/plandex_server_data
+2025/06/02 10:56:12 fileMapMaxConcurrency: 6
+2025/06/02 10:56:12.266548 tracing.go:30: [TRACING] LOGFIRE_TOKEN found.
+2025/06/02 10:56:12.266660 tracing.go:49: [TRACING] OpenTelemetry resource configured for service: plandex-server-test
+2025/06/02 10:56:12.266698 tracing.go:71: [TRACING] Configuring OTLP HTTP exporter for Logfire at: https://logfire-api.pydantic.dev
+2025/06/02 10:56:12.266744 tracing.go:76: [TRACING] OTLP HTTP exporter created successfully.
+2025/06/02 10:56:12.266877 tracing.go:90: [TRACING] TracerProvider configured and set globally.
+2025/06/02 10:56:12.266901 main.go:44: 🚀 Plandex Server starting with tracing enabled...
+2025/06/02 10:56:12.274092 db.go:55: connected to database
+2025/06/02 10:56:12.276791 db.go:91: 
+
+Database settings:
+- idle_in_transaction_session_timeout = 90000 ms (context: user)
+- lock_timeout = 4000 ms (context: user)
+- statement_timeout = 30000 ms (context: user)
+- TimeZone = UTC (context: user)
+
+2025/06/02 10:56:12.284583 db.go:163: migration state is up to date
+2025/06/02 10:56:12.290782 setup.go:65: In development mode.
+2025/06/02 10:56:12.290867 setup.go:110: Started Plandex server on port 8099
+2025/06/02 10:56:34.361608 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/config
+
+2025/06/02 10:56:34.361784 plan_config.go:17: Received request for GetPlanConfigHandler
+2025/06/02 10:56:34.361877 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:34.367275 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:34.367324 plan_config.go:27: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:34.367333 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:34.371925 plan_config.go:53: GetPlanConfigHandler processed successfully
+2025/06/02 10:56:34.372015 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/config in 10.40739ms
+
+2025/06/02 10:56:34.372660 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings
+
+2025/06/02 10:56:34.372810 settings.go:19: Received request for GetSettingsHandler
+2025/06/02 10:56:34.372875 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:34.375011 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:34.375059 settings.go:30: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:56:34.375068 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:34.375935 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason get settings
+2025/06/02 10:56:34.381627 locks.go:166: [Lock][51] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:56:34.382385 locks.go:227: [Lock][51] 0 locks found, 0 expired | reason: get settings
+2025/06/02 10:56:34.396134 locks.go:383: Lock acquired: 57a3e559-06f3-4ba2-be0a-ad84cbf72659 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: get settings
+2025/06/02 10:56:34.396239 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:34.396307 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Heartbeat interval: 3s, jitter: 29.664673ms
+2025/06/02 10:56:34.396411 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:56:34.396458 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:34.397882 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:56:34.397916 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:56:34.397924 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Checked out branch
+2025/06/02 10:56:34.397935 queue.go:190: [Queue] Acquired DB lock 57a3e559-06f3-4ba2-be0a-ad84cbf72659
+2025/06/02 10:56:34.398086 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:56:34.398416 queue.go:193: [Queue] Releasing DB lock 57a3e559-06f3-4ba2-be0a-ad84cbf72659 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:34.398525 settings.go:74: GetSettingsHandler processed successfully
+2025/06/02 10:56:34.398638 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings in 25.978053ms
+
+2025/06/02 10:56:34.398682 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 57a3e559-06f3-4ba2-be0a-ad84cbf72659 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:56:34.399280 locks.go:501: [Lock][Delete][51] Lock released: 57a3e559-06f3-4ba2-be0a-ad84cbf72659 for plan e27f4a52-5077-4776-a442-ea948c063f16 | get settings
+2025/06/02 10:56:34.399306 queue.go:198: [Queue] DB lock 57a3e559-06f3-4ba2-be0a-ad84cbf72659 released successfully
+2025/06/02 10:56:37.289344 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:56:40.964707 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/config
+
+2025/06/02 10:56:40.964927 plan_config.go:17: Received request for GetPlanConfigHandler
+2025/06/02 10:56:40.964953 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:40.969229 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:40.969289 plan_config.go:27: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:40.969300 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:40.973854 plan_config.go:53: GetPlanConfigHandler processed successfully
+2025/06/02 10:56:40.974074 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/config in 9.366506ms
+
+2025/06/02 10:56:40.974821 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings
+
+2025/06/02 10:56:40.974947 settings.go:19: Received request for GetSettingsHandler
+2025/06/02 10:56:40.974958 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:40.978172 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:40.978226 settings.go:30: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:56:40.978235 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:40.979259 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason get settings
+2025/06/02 10:56:40.984997 locks.go:166: [Lock][60] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:56:40.985623 locks.go:227: [Lock][60] 0 locks found, 0 expired | reason: get settings
+2025/06/02 10:56:40.987433 locks.go:383: Lock acquired: 2b7ba86f-5956-4fef-9f8c-6f22ba1040fd for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: get settings
+2025/06/02 10:56:40.987516 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:40.987574 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Heartbeat interval: 3s, jitter: 123.5639ms
+2025/06/02 10:56:40.987613 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:56:40.987690 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:40.991720 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:56:40.991786 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:56:40.991796 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Checked out branch
+2025/06/02 10:56:40.991810 queue.go:190: [Queue] Acquired DB lock 2b7ba86f-5956-4fef-9f8c-6f22ba1040fd
+2025/06/02 10:56:40.991897 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:56:40.992115 queue.go:193: [Queue] Releasing DB lock 2b7ba86f-5956-4fef-9f8c-6f22ba1040fd for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:40.992253 settings.go:74: GetSettingsHandler processed successfully
+2025/06/02 10:56:40.992650 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings in 17.827871ms
+
+2025/06/02 10:56:40.992716 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 2b7ba86f-5956-4fef-9f8c-6f22ba1040fd for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:56:40.993372 locks.go:501: [Lock][Delete][60] Lock released: 2b7ba86f-5956-4fef-9f8c-6f22ba1040fd for plan e27f4a52-5077-4776-a442-ea948c063f16 | get settings
+2025/06/02 10:56:40.993409 queue.go:198: [Queue] DB lock 2b7ba86f-5956-4fef-9f8c-6f22ba1040fd released successfully
+2025/06/02 10:56:41.325450 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context
+
+2025/06/02 10:56:41.325602 plans_context.go:18: Received request for ListContextHandler
+2025/06/02 10:56:41.325667 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:41.330444 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:41.330498 plans_context.go:28: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:56:41.330508 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:41.331881 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason list contexts
+2025/06/02 10:56:41.336306 locks.go:166: [Lock][77] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: list contexts
+2025/06/02 10:56:41.336872 locks.go:227: [Lock][77] 0 locks found, 0 expired | reason: list contexts
+2025/06/02 10:56:41.338648 locks.go:383: Lock acquired: 2eecbb59-01f7-4296-8473-97a45b18c2f2 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: list contexts
+2025/06/02 10:56:41.338707 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.338743 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | list contexts | Heartbeat interval: 3s, jitter: 243.668362ms
+2025/06/02 10:56:41.338777 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:56:41.338799 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.340182 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:56:41.340215 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:56:41.340224 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | list contexts | Checked out branch
+2025/06/02 10:56:41.340236 queue.go:190: [Queue] Acquired DB lock 2eecbb59-01f7-4296-8473-97a45b18c2f2
+2025/06/02 10:56:41.341468 queue.go:193: [Queue] Releasing DB lock 2eecbb59-01f7-4296-8473-97a45b18c2f2 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.342158 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context in 16.708926ms
+
+2025/06/02 10:56:41.342216 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 2eecbb59-01f7-4296-8473-97a45b18c2f2 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: list contexts
+2025/06/02 10:56:41.342225 locks.go:501: [Lock][Delete][77] Lock released: 2eecbb59-01f7-4296-8473-97a45b18c2f2 for plan e27f4a52-5077-4776-a442-ea948c063f16 | list contexts
+2025/06/02 10:56:41.342259 queue.go:198: [Queue] DB lock 2eecbb59-01f7-4296-8473-97a45b18c2f2 released successfully
+2025/06/02 10:56:41.432728 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:56:41.711945 setup.go:57: 
+
+Request: POST /file_map
+
+2025/06/02 10:56:41.712055 file_maps.go:17: Received request for GetFileMapHandler
+2025/06/02 10:56:41.712065 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:41.714761 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:41.714855 file_maps.go:31: GetFileMapHandler: checking limits
+2025/06/02 10:56:41.714866 file_maps_queue.go:71: queueProjectMapJob: len(projectMapQueue): 0
+2025/06/02 10:56:41.714908 file_maps_queue.go:85: mapWorker: len(job.inputs): 2
+2025/06/02 10:56:41.714940 file_maps.go:99: GetFileMapHandler success - writing response bytes: 165
+2025/06/02 10:56:41.714968 setup.go:59: 
+
+Completed: POST /file_map in 3.024089ms
+
+2025/06/02 10:56:41.715360 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/current_plan
+
+2025/06/02 10:56:41.715437 plans_changes.go:20: Received request for CurrentPlanHandler
+2025/06/02 10:56:41.715447 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:41.718339 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:41.718446 plans_changes.go:32: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main sha:  
+2025/06/02 10:56:41.718472 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:41.821099 plans_changes.go:46: locking with scope: r
+2025/06/02 10:56:41.821176 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason get current plan state
+2025/06/02 10:56:41.826878 locks.go:166: [Lock][81] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: get current plan state
+2025/06/02 10:56:41.827746 locks.go:227: [Lock][81] 0 locks found, 0 expired | reason: get current plan state
+2025/06/02 10:56:41.841543 locks.go:383: Lock acquired: 47956e71-9a75-42a2-9ea5-1636ab2c5a40 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: get current plan state
+2025/06/02 10:56:41.841656 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.841727 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | get current plan state | Heartbeat interval: 3s, jitter: 167.160996ms
+2025/06/02 10:56:41.841817 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:56:41.841855 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.843369 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:56:41.843413 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:56:41.843423 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | get current plan state | Checked out branch
+2025/06/02 10:56:41.843449 queue.go:190: [Queue] Acquired DB lock 47956e71-9a75-42a2-9ea5-1636ab2c5a40
+2025/06/02 10:56:41.844925 result_helpers.go:173: Got contexts: 1
+2025/06/02 10:56:41.844983 queue.go:193: [Queue] Releasing DB lock 47956e71-9a75-42a2-9ea5-1636ab2c5a40 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.845880 locks.go:501: [Lock][Delete][81] Lock released: 47956e71-9a75-42a2-9ea5-1636ab2c5a40 for plan e27f4a52-5077-4776-a442-ea948c063f16 | get current plan state
+2025/06/02 10:56:41.845927 queue.go:198: [Queue] DB lock 47956e71-9a75-42a2-9ea5-1636ab2c5a40 released successfully
+2025/06/02 10:56:41.846134 plans_changes.go:101: Successfully retrieved current plan state
+2025/06/02 10:56:41.846293 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/current_plan in 130.932627ms
+
+2025/06/02 10:56:41.846339 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 47956e71-9a75-42a2-9ea5-1636ab2c5a40 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: get current plan state
+2025/06/02 10:56:41.849529 setup.go:57: 
+
+Request: PUT /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context
+
+2025/06/02 10:56:41.849654 plans_context.go:215: Received request for UpdateContextHandler
+2025/06/02 10:56:41.849664 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:41.852739 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:41.852797 plans_context.go:225: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.852805 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:41.853885 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason update contexts
+2025/06/02 10:56:41.857117 locks.go:166: [Lock][120] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: update contexts
+2025/06/02 10:56:41.857674 locks.go:227: [Lock][120] 0 locks found, 0 expired | reason: update contexts
+2025/06/02 10:56:41.859360 locks.go:383: Lock acquired: 9a1a1dad-f2fa-4428-ba6d-9c39e603b5cf for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: update contexts
+2025/06/02 10:56:41.859409 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.859443 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | update contexts | Heartbeat interval: 3s, jitter: 131.655947ms
+2025/06/02 10:56:41.859487 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:56:41.859512 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.861547 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:56:41.861575 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:56:41.861580 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | update contexts | Checked out branch
+2025/06/02 10:56:41.861592 queue.go:190: [Queue] Acquired DB lock 9a1a1dad-f2fa-4428-ba6d-9c39e603b5cf
+2025/06/02 10:56:41.862737 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:56:41.868105 result_helpers.go:173: Got contexts: 1
+2025/06/02 10:56:41.928057 context_helpers_store.go:89: StoreContext - context.MapParts length 459
+2025/06/02 10:56:41.928174 context_helpers_store.go:104: StoreContext - mapCachePath /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/projects/937532f3-b441-4fca-a384-61b11b163b48/map_cache/5058f1af8388633f609cadb75a75dc9d.json
+2025/06/02 10:56:41.935835 git.go:66: [Git] GitAddAndCommit - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main, message: Updated 1 map in context | added → 28 🪙 | total → 41391 🪙
+
++---------+------+-----+
+|  NAME   | TYPE | 🪙  |
++---------+------+-----+
+| [92;1m 🗺️  cwd[0m | [92mmap[0m  | [92m+28[0m |
++---------+------+-----+
+2025/06/02 10:56:41.935925 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitAdd: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:56:41.935933 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.944825 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitCommit: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:56:41.944879 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.955320 queue.go:193: [Queue] Releasing DB lock 9a1a1dad-f2fa-4428-ba6d-9c39e603b5cf for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:41.955472 plans_context.go:315: Successfully processed UpdateContextHandler request
+2025/06/02 10:56:41.955550 setup.go:59: 
+
+Completed: PUT /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context in 106.021525ms
+
+2025/06/02 10:56:41.955603 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 9a1a1dad-f2fa-4428-ba6d-9c39e603b5cf for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: update contexts
+2025/06/02 10:56:41.956488 locks.go:501: [Lock][Delete][120] Lock released: 9a1a1dad-f2fa-4428-ba6d-9c39e603b5cf for plan e27f4a52-5077-4776-a442-ea948c063f16 | update contexts
+2025/06/02 10:56:41.956541 queue.go:198: [Queue] DB lock 9a1a1dad-f2fa-4428-ba6d-9c39e603b5cf released successfully
+2025/06/02 10:56:42.415717 setup.go:57: 
+
+Request: POST /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/tell
+
+2025/06/02 10:56:42.415854 plans_exec.go:24: Received request for TellPlanHandler ip: localhost
+2025/06/02 10:56:42.415868 auth_helpers.go:442: authenticating request
+2025/06/02 10:56:42.420023 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:56:42.420087 plans_exec.go:35: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:42.420096 auth_helpers.go:648: authorizing plan
+2025/06/02 10:56:42.422430 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:56:42.422740 tell_exec.go:45: Tell: Called with plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main (TraceID: 3c25e12d53183fca9b85545a50095b63)
+2025/06/02 10:56:42.422788 activate.go:25: Activate plan: plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main
+2025/06/02 10:56:42.422797 activate.go:28: Waiting 100ms before checking for active plan
+2025/06/02 10:56:42.523355 activate.go:30: Done waiting, checking for active plan
+2025/06/02 10:56:42.527531 activate.go:79: Tell: Model stream stored with ID 28d9d59b-073e-4765-9556-0bebc4bf76a4 for plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main
+2025/06/02 10:56:42.527605 activate.go:80: Model stream id: 28d9d59b-073e-4765-9556-0bebc4bf76a4
+2025/06/02 10:56:42.527621 tell_exec.go:76: Tell: Tell operation completed successfully for plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main (TraceID: 3c25e12d53183fca9b85545a50095b63)
+2025/06/02 10:56:42.527648 stream_helper.go:20: Response stream manager: starting plan stream
+2025/06/02 10:56:42.527815 stream_helper.go:45: Response stream manager: sending initial message
+2025/06/02 10:56:42.527879 tell_exec.go:107: [TellExec] Starting iteration 0 for plan e27f4a52-5077-4776-a442-ea948c063f16 on branch main (TraceID: 3c25e12d53183fca9b85545a50095b63)
+2025/06/02 10:56:42.527952 tell_exec.go:127: [TellExec] Starting iteration 0 for plan e27f4a52-5077-4776-a442-ea948c063f16 on branch main
+2025/06/02 10:56:42.528000 tell_exec.go:154: Executing WillExecPlanHook
+2025/06/02 10:56:42.527911 state.go:140: Subscribing to plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:42.528006 tell_exec.go:168: execTellPlan - Setting plan status to replying
+2025/06/02 10:56:42.539512 tell_exec.go:183: execTellPlan - Plan status set to replying
+2025/06/02 10:56:42.539567 tell_exec.go:198: execTellPlan - Loading tell plan
+2025/06/02 10:56:42.539581 tell_load.go:50: [TellLoad] Tell plan - loadTellPlan - iteration: 0, missingFileResponse: , req.IsUserContinue: false, lockScope: w
+2025/06/02 10:56:42.539605 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason load tell plan
+2025/06/02 10:56:42.545183 locks.go:166: [Lock][174] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: load tell plan
+2025/06/02 10:56:42.546254 locks.go:227: [Lock][174] 0 locks found, 0 expired | reason: load tell plan
+2025/06/02 10:56:42.549586 locks.go:383: Lock acquired: 29853a3f-7df2-47a0-84da-ad2028c40c2a for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: load tell plan
+2025/06/02 10:56:42.549729 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:42.549803 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 67.020484ms
+2025/06/02 10:56:42.549838 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:56:42.549846 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:42.551321 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:56:42.551370 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:56:42.551379 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Checked out branch
+2025/06/02 10:56:42.551395 queue.go:190: [Queue] Acquired DB lock 29853a3f-7df2-47a0-84da-ad2028c40c2a
+2025/06/02 10:56:42.551558 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:56:42.551893 tell_load.go:203: getting plan summaries
+2025/06/02 10:56:42.551929 tell_load.go:204: convoMessageIds: [9990a457-a7e4-42d3-9407-cb60859896fb a67959ad-72fc-446a-a9d4-7feef986a86f a4f0f6a6-8ca7-4881-a668-9b97b45838fd 9a440558-aabf-44cd-8174-7a739b71b38a]
+2025/06/02 10:56:42.551918 tell_load.go:160: [TellLoad] storing user message | len(convo): 4 | num: 5
+2025/06/02 10:56:42.551972 tell_load.go:177: [TellLoad] storing user message
+2025/06/02 10:56:42.552117 model_request.go:82: Model config - role: names, model: gemini-2.5-pro-preview-05-06, max output tokens: 8192
+2025/06/02 10:56:42.552175 client_stream.go:267: withStreamingRetries - will run operation
+2025/06/02 10:56:42.552294 client_stream.go:105: processChatCompletionStream - modelConfig (map[string]interface {}) (len=2) {
+ (string) (len=5) "model": (shared.ModelName) (len=28) "gemini-2.5-pro-preview-05-06",
+ (string) (len=8) "provider": (shared.ModelProvider) (len=6) "custom"
+}
+
+2025/06/02 10:56:42.552334 client.go:195: LLM API call starting - Model: gemini-2.5-pro-preview-05-06, Provider: custom (TraceID: ce88c6603341f3d08e886e700e123f3c)
+2025/06/02 10:56:42.553537 tell_load.go:130: [TellLoad] Tell plan - loadTellPlan - modelContext: 0
+2025/06/02 10:56:42.553650 tell_load.go:214: got 0 plan summaries
+2025/06/02 10:56:42.554554 convo_helpers.go:163: StoreConvoMessage - message.Flags.CurrentStage.TellStage: 
+2025/06/02 10:56:42.554616 convo_helpers.go:164: StoreConvoMessage - message.Subtask: <nil>
+2025/06/02 10:56:42.554629 convo_helpers.go:188: [Git] StoreConvoMessage - committing convo message: Message #5 | 💬 User prompt | 1 🪙, branch: main
+2025/06/02 10:56:42.554669 git.go:66: [Git] GitAddAndCommit - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main, message: Message #5 | 💬 User prompt | 1 🪙
+2025/06/02 10:56:42.554683 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitAdd: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:56:42.554690 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:42.560277 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitCommit: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:56:42.560339 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:56:45.617945 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:56:45.619358 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:56:45.619417 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 280.603121ms
+2025/06/02 10:56:46.177388 client.go:355: LLM API call successful - Status: 200 (TraceID: ce88c6603341f3d08e886e700e123f3c)
+2025/06/02 10:56:46.433237 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:56:48.900742 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:56:48.903585 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:56:48.903675 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 197.273272ms
+2025/06/02 10:56:52.101232 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:56:52.102945 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:56:52.103072 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 246.20958ms
+2025/06/02 10:56:55.349789 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:56:55.351344 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:56:55.351446 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 142.711638ms
+2025/06/02 10:56:58.495226 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:56:58.499229 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:56:58.499306 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 101.27505ms
+2025/06/02 10:57:01.601533 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:01.603179 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:01.603304 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 279.873665ms
+2025/06/02 10:57:04.883304 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:04.884940 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:04.885002 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 28.073662ms
+2025/06/02 10:57:07.913200 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:07.914737 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:07.914778 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 155.004777ms
+2025/06/02 10:57:10.218815 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:10.220142 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:10.220208 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 38.074066ms
+2025/06/02 10:57:13.259234 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:13.260624 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:13.260679 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 229.0312ms
+2025/06/02 10:57:16.490435 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:16.492604 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:16.492693 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 71.265667ms
+2025/06/02 10:57:19.565051 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:19.567022 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:19.567112 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 276.699524ms
+2025/06/02 10:57:22.844696 locks.go:410: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Updating repo lock last heartbeat
+2025/06/02 10:57:22.846286 locks.go:442: [Lock][Heartbeat] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Lock found: 29853a3f-7df2-47a0-84da-ad2028c40c2a | continuing heartbeat loop
+2025/06/02 10:57:22.846433 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 82.229997ms
+GenPlanName: Raw content from model: 
+no namePlan function call found in response
+2025/06/02 10:57:25.350010 tell_load.go:86: Error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:25.350263 queue.go:193: [Queue] Releasing DB lock 29853a3f-7df2-47a0-84da-ad2028c40c2a for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.350287 state.go:44: case apiErr := <-activePlan.StreamDoneCh: e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.350323 state.go:45: apiErr: 500 Error: Error loading plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:25.350342 state.go:61: Error streaming plan e27f4a52-5077-4776-a442-ea948c063f16: 500 Error: Error loading plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:25.350364 tell_load.go:279: execTellPlan: error loading tell plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:25.351488 locks.go:501: [Lock][Delete][174] Lock released: 29853a3f-7df2-47a0-84da-ad2028c40c2a for plan e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan
+2025/06/02 10:57:25.351555 queue.go:198: [Queue] DB lock 29853a3f-7df2-47a0-84da-ad2028c40c2a released successfully
+2025/06/02 10:57:25.353026 state.go:68: Sending error message to client
+2025/06/02 10:57:25.353101 active_plan.go:198: ActivePlan.Stream: skipping buffer for special message
+2025/06/02 10:57:25.353223 active_plan.go:199: (shared.StreamMessage) {
+ Type: (shared.StreamMessageType) (len=5) "error",
+ ReplyChunk: (string) "",
+ BuildInfo: (*shared.BuildInfo)(<nil>),
+ Description: (*shared.ConvoMessageDescription)(<nil>),
+ Error: (*shared.ApiError)(0xc000b94dc0)(500 Error: Error loading plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.),
+ MissingFilePath: (string) "",
+ MissingFileAutoContext: (bool) false,
+ ModelStreamId: (string) "",
+ LoadContextFiles: ([]string) <nil>,
+ InitPrompt: (string) "",
+ InitReplies: ([]string) <nil>,
+ InitBuildOnly: (bool) false,
+ StreamMessages: ([]shared.StreamMessage) <nil>
+}
+
+2025/06/02 10:57:25.353310 state.go:75: Stopping any active summary stream
+2025/06/02 10:57:25.353356 state.go:78: Waiting 100ms after streaming error before canceling active plan
+2025/06/02 10:57:25.353799 stream_helper.go:94: Response stream manager: request context done
+2025/06/02 10:57:25.353848 stream_helper.go:64: Response stream manager: client stream closed
+2025/06/02 10:57:25.353860 state.go:157: UnsubscribePlan e27f4a52-5077-4776-a442-ea948c063f16 - main - c0fbc87e-0f79-4e17-953c-57073f066aeb
+2025/06/02 10:57:25.353881 state.go:168: Unsubscribed from plan e27f4a52-5077-4776-a442-ea948c063f16 - main - c0fbc87e-0f79-4e17-953c-57073f066aeb
+2025/06/02 10:57:25.353891 plans_exec.go:97: Successfully processed request for TellPlanHandler
+2025/06/02 10:57:25.353903 plans_exec.go:50: Closing request body
+2025/06/02 10:57:25.353954 setup.go:59: 
+
+Completed: POST /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/tell in 43.789970641s
+
+2025/06/02 10:57:25.454399 state.go:83: Cancelling active plan
+2025/06/02 10:57:25.454541 state.go:96: Deleting active plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:25.454570 state.go:107: Clearing uncommitted changes for plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:25.454588 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason delete active plan
+2025/06/02 10:57:25.454592 active_plan.go:136: ActivePlan stream manager returned
+2025/06/02 10:57:25.454657 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 29853a3f-7df2-47a0-84da-ad2028c40c2a for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: load tell plan
+2025/06/02 10:57:25.460273 locks.go:166: [Lock][214] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: delete active plan
+2025/06/02 10:57:25.461740 locks.go:227: [Lock][214] 0 locks found, 0 expired | reason: delete active plan
+2025/06/02 10:57:25.464974 locks.go:383: Lock acquired: c6ce0bdf-1097-458c-8267-b69521577474 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: delete active plan
+2025/06/02 10:57:25.465072 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.465136 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | delete active plan | Heartbeat interval: 3s, jitter: 108.85162ms
+2025/06/02 10:57:25.465175 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:25.465207 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.467819 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:25.467875 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:25.467884 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | delete active plan | Checked out branch
+2025/06/02 10:57:25.467905 queue.go:190: [Queue] Acquired DB lock c6ce0bdf-1097-458c-8267-b69521577474
+2025/06/02 10:57:25.467945 state.go:119: Starting clear uncommitted changes for plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:25.468054 git.go:335: [Git] GitClearUncommittedChanges - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:25.473682 git.go:647: [Git] gitWriteOperation - label: GitClearUncommittedChanges > gitReset: plan=e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.473746 git.go:356: [Git] GitClearUncommittedChanges - resetting staged changes for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.478540 git.go:361: [Git] GitClearUncommittedChanges - reset staged changes finished for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.478615 git.go:647: [Git] gitWriteOperation - label: GitClearUncommittedChanges > gitClean: plan=e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.478624 git.go:371: [Git] GitClearUncommittedChanges - cleaning untracked files for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.481601 git.go:376: [Git] GitClearUncommittedChanges - clean untracked files finished for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.481678 state.go:121: Finished clear uncommitted changes for plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:25.481695 state.go:122: Error: <nil>
+2025/06/02 10:57:25.481744 queue.go:193: [Queue] Releasing DB lock c6ce0bdf-1097-458c-8267-b69521577474 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:25.481797 state.go:132: Deleted active plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:25.481867 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock c6ce0bdf-1097-458c-8267-b69521577474 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: delete active plan
+2025/06/02 10:57:25.483172 locks.go:501: [Lock][Delete][214] Lock released: c6ce0bdf-1097-458c-8267-b69521577474 for plan e27f4a52-5077-4776-a442-ea948c063f16 | delete active plan
+2025/06/02 10:57:25.483241 queue.go:198: [Queue] DB lock c6ce0bdf-1097-458c-8267-b69521577474 released successfully
+2025/06/02 10:57:25.586029 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:57:26.145465 stream_helpers.go:76: Setting model stream finished: 28d9d59b-073e-4765-9556-0bebc4bf76a4
+2025/06/02 10:57:26.159190 stream_helpers.go:84: Set model stream finished successfully: 28d9d59b-073e-4765-9556-0bebc4bf76a4
+2025/06/02 10:57:32.951224 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings
+
+2025/06/02 10:57:32.951448 settings.go:19: Received request for GetSettingsHandler
+2025/06/02 10:57:32.951471 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:32.956176 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:32.956227 settings.go:30: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:57:32.956235 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:32.960246 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason get settings
+2025/06/02 10:57:32.963637 locks.go:166: [Lock][220] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:57:32.964151 locks.go:227: [Lock][220] 0 locks found, 0 expired | reason: get settings
+2025/06/02 10:57:32.978451 locks.go:383: Lock acquired: abb18947-d24c-4c2c-a00b-ab0a41cbffa5 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: get settings
+2025/06/02 10:57:32.978692 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:32.978754 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Heartbeat interval: 3s, jitter: 94.288644ms
+2025/06/02 10:57:32.978975 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:32.979017 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:32.981905 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:32.981987 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:32.981994 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Checked out branch
+2025/06/02 10:57:32.982008 queue.go:190: [Queue] Acquired DB lock abb18947-d24c-4c2c-a00b-ab0a41cbffa5
+2025/06/02 10:57:32.982174 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:57:32.982389 queue.go:193: [Queue] Releasing DB lock abb18947-d24c-4c2c-a00b-ab0a41cbffa5 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:32.982471 settings.go:74: GetSettingsHandler processed successfully
+2025/06/02 10:57:32.982643 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings in 31.419321ms
+
+2025/06/02 10:57:32.982712 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock abb18947-d24c-4c2c-a00b-ab0a41cbffa5 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:57:32.983422 locks.go:501: [Lock][Delete][220] Lock released: abb18947-d24c-4c2c-a00b-ab0a41cbffa5 for plan e27f4a52-5077-4776-a442-ea948c063f16 | get settings
+2025/06/02 10:57:32.983462 queue.go:198: [Queue] DB lock abb18947-d24c-4c2c-a00b-ab0a41cbffa5 released successfully
+2025/06/02 10:57:34.155275 setup.go:57: 
+
+Request: GET /model_sets
+
+2025/06/02 10:57:34.155577 models.go:302: Received request for ListModelPacksHandler
+2025/06/02 10:57:34.155825 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:34.162668 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:34.165852 models.go:324: Successfully fetched model packs
+2025/06/02 10:57:34.165962 setup.go:59: 
+
+Completed: GET /model_sets in 10.687093ms
+
+2025/06/02 10:57:35.380691 setup.go:57: 
+
+Request: PUT /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings
+
+2025/06/02 10:57:35.380951 settings.go:80: Received request for UpdateSettingsHandler
+2025/06/02 10:57:35.380988 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:35.384786 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:35.384848 settings.go:91: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:57:35.384858 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:35.386615 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason update settings
+2025/06/02 10:57:35.390309 locks.go:166: [Lock][239] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: update settings
+2025/06/02 10:57:35.391194 locks.go:227: [Lock][239] 0 locks found, 0 expired | reason: update settings
+2025/06/02 10:57:35.405339 locks.go:383: Lock acquired: 89dd9557-0d94-4f9d-b1f5-967540c2798a for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: update settings
+2025/06/02 10:57:35.405405 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:35.405439 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:35.405444 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:35.405458 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | update settings | Heartbeat interval: 3s, jitter: 148.602055ms
+2025/06/02 10:57:35.406686 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:35.406716 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:35.406722 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | update settings | Checked out branch
+2025/06/02 10:57:35.406733 queue.go:190: [Queue] Acquired DB lock 89dd9557-0d94-4f9d-b1f5-967540c2798a
+2025/06/02 10:57:35.406793 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:57:35.411897 git.go:66: [Git] GitAddAndCommit - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main, message: ⚙️  Updated model settings:
+  • model-pack.id | 0afcc462-fa5f-4417-b69d-648bcaac551f → bbfc45de-0ec3-4fd7-916e-579a7eefb700
+  • model-pack.name | aistudio → copilot
+  • model-pack.planner.custom-provider | GEMISS → copilot
+  • model-pack.planner.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.planner.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.planner.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.planner.max-tokens | 1000000 → 120000
+  • model-pack.planner.model-compatibility.has-image-support | true → false
+  • model-pack.planner.max-convo-tokens | 15000 → 10000
+  • model-pack.coder.custom-provider | GEMISS → copilot
+  • model-pack.coder.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.coder.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.coder.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.coder.max-tokens | 1000000 → 120000
+  • model-pack.coder.model-compatibility.has-image-support | true → false
+  • model-pack.plan-summary.custom-provider | GEMISS → copilot
+  • model-pack.plan-summary.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.plan-summary.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.plan-summary.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.plan-summary.max-tokens | 1000000 → 120000
+  • model-pack.plan-summary.model-compatibility.has-image-support | true → false
+  • model-pack.builder.custom-provider | GEMISS → copilot
+  • model-pack.builder.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.builder.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.builder.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.builder.max-tokens | 1000000 → 120000
+  • model-pack.builder.model-compatibility.has-image-support | true → false
+  • model-pack.namer.custom-provider | GEMISS → copilot
+  • model-pack.namer.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.namer.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.namer.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.namer.max-tokens | 1000000 → 120000
+  • model-pack.namer.model-compatibility.has-image-support | true → false
+  • model-pack.commit-msg.custom-provider | GEMISS → copilot
+  • model-pack.commit-msg.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.commit-msg.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.commit-msg.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.commit-msg.max-tokens | 1000000 → 120000
+  • model-pack.commit-msg.model-compatibility.has-image-support | true → false
+  • model-pack.exec-status.custom-provider | GEMISS → copilot
+  • model-pack.exec-status.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.exec-status.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.exec-status.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.exec-status.max-tokens | 1000000 → 120000
+  • model-pack.exec-status.model-compatibility.has-image-support | true → false
+  • model-pack.architect.custom-provider | GEMISS → copilot
+  • model-pack.architect.base-url | http://localhost:2048/v1 → http://localhost:4141/v1
+  • model-pack.architect.model-name | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.architect.model-id | gemini-2.5-pro-preview-05-06 → gemini-2.5-pro
+  • model-pack.architect.max-tokens | 1000000 → 120000
+  • model-pack.architect.model-compatibility.has-image-support | true → false
+2025/06/02 10:57:35.411980 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitAdd: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:57:35.411990 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:35.414702 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitCommit: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:57:35.414742 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:35.420192 queue.go:193: [Queue] Releasing DB lock 89dd9557-0d94-4f9d-b1f5-967540c2798a for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:35.420319 settings.go:170: UpdateSettingsHandler processed successfully
+2025/06/02 10:57:35.420402 setup.go:59: 
+
+Completed: PUT /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings in 39.71183ms
+
+2025/06/02 10:57:35.420449 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 89dd9557-0d94-4f9d-b1f5-967540c2798a for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: update settings
+2025/06/02 10:57:35.421181 locks.go:501: [Lock][Delete][239] Lock released: 89dd9557-0d94-4f9d-b1f5-967540c2798a for plan e27f4a52-5077-4776-a442-ea948c063f16 | update settings
+2025/06/02 10:57:35.421221 queue.go:198: [Queue] DB lock 89dd9557-0d94-4f9d-b1f5-967540c2798a released successfully
+2025/06/02 10:57:35.587892 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:57:37.584167 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/config
+
+2025/06/02 10:57:37.584409 plan_config.go:17: Received request for GetPlanConfigHandler
+2025/06/02 10:57:37.584429 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:37.594370 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:37.594471 plan_config.go:27: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.594486 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:37.597316 plan_config.go:53: GetPlanConfigHandler processed successfully
+2025/06/02 10:57:37.597447 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/config in 13.280402ms
+
+2025/06/02 10:57:37.598284 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings
+
+2025/06/02 10:57:37.598480 settings.go:19: Received request for GetSettingsHandler
+2025/06/02 10:57:37.598520 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:37.608335 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:37.608411 settings.go:30: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:57:37.608424 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:37.610107 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason get settings
+2025/06/02 10:57:37.615052 locks.go:166: [Lock][301] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:57:37.615982 locks.go:227: [Lock][301] 0 locks found, 0 expired | reason: get settings
+2025/06/02 10:57:37.631134 locks.go:383: Lock acquired: 7e293de8-3261-4ad2-ab7d-aef294028e09 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: get settings
+2025/06/02 10:57:37.631223 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.631277 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Heartbeat interval: 3s, jitter: 212.712923ms
+2025/06/02 10:57:37.631342 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:37.631367 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.639875 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:37.639936 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:37.639948 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | get settings | Checked out branch
+2025/06/02 10:57:37.639978 queue.go:190: [Queue] Acquired DB lock 7e293de8-3261-4ad2-ab7d-aef294028e09
+2025/06/02 10:57:37.640075 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:57:37.640294 queue.go:193: [Queue] Releasing DB lock 7e293de8-3261-4ad2-ab7d-aef294028e09 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.640375 settings.go:74: GetSettingsHandler processed successfully
+2025/06/02 10:57:37.640548 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/settings in 42.26323ms
+
+2025/06/02 10:57:37.640629 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 7e293de8-3261-4ad2-ab7d-aef294028e09 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: get settings
+2025/06/02 10:57:37.642021 locks.go:501: [Lock][Delete][301] Lock released: 7e293de8-3261-4ad2-ab7d-aef294028e09 for plan e27f4a52-5077-4776-a442-ea948c063f16 | get settings
+2025/06/02 10:57:37.642118 queue.go:198: [Queue] DB lock 7e293de8-3261-4ad2-ab7d-aef294028e09 released successfully
+2025/06/02 10:57:37.949241 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context
+
+2025/06/02 10:57:37.949431 plans_context.go:18: Received request for ListContextHandler
+2025/06/02 10:57:37.949448 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:37.954717 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:37.954774 plans_context.go:28: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main
+2025/06/02 10:57:37.954784 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:37.956118 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason list contexts
+2025/06/02 10:57:37.958411 locks.go:166: [Lock][308] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: list contexts
+2025/06/02 10:57:37.959164 locks.go:227: [Lock][308] 0 locks found, 0 expired | reason: list contexts
+2025/06/02 10:57:37.961444 locks.go:383: Lock acquired: ad94a0dd-1f30-46c5-ab53-bf41f3d187c7 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: list contexts
+2025/06/02 10:57:37.961520 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.961583 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:37.961591 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.961632 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | list contexts | Heartbeat interval: 3s, jitter: 283.788311ms
+2025/06/02 10:57:37.963656 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:37.963937 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:37.963978 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | list contexts | Checked out branch
+2025/06/02 10:57:37.964041 queue.go:190: [Queue] Acquired DB lock ad94a0dd-1f30-46c5-ab53-bf41f3d187c7
+2025/06/02 10:57:37.966417 queue.go:193: [Queue] Releasing DB lock ad94a0dd-1f30-46c5-ab53-bf41f3d187c7 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:37.967286 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context in 18.044336ms
+
+2025/06/02 10:57:37.967379 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock ad94a0dd-1f30-46c5-ab53-bf41f3d187c7 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: list contexts
+2025/06/02 10:57:37.967695 locks.go:501: [Lock][Delete][308] Lock released: ad94a0dd-1f30-46c5-ab53-bf41f3d187c7 for plan e27f4a52-5077-4776-a442-ea948c063f16 | list contexts
+2025/06/02 10:57:37.967742 queue.go:198: [Queue] DB lock ad94a0dd-1f30-46c5-ab53-bf41f3d187c7 released successfully
+2025/06/02 10:57:38.321522 setup.go:57: 
+
+Request: POST /file_map
+
+2025/06/02 10:57:38.321641 file_maps.go:17: Received request for GetFileMapHandler
+2025/06/02 10:57:38.321650 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:38.324550 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:38.324662 file_maps.go:31: GetFileMapHandler: checking limits
+2025/06/02 10:57:38.324675 file_maps_queue.go:71: queueProjectMapJob: len(projectMapQueue): 0
+2025/06/02 10:57:38.324693 file_maps_queue.go:85: mapWorker: len(job.inputs): 1
+2025/06/02 10:57:38.324726 file_maps.go:99: GetFileMapHandler success - writing response bytes: 90
+2025/06/02 10:57:38.324778 setup.go:59: 
+
+Completed: POST /file_map in 3.256083ms
+
+2025/06/02 10:57:38.325548 setup.go:57: 
+
+Request: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/current_plan
+
+2025/06/02 10:57:38.325848 plans_changes.go:20: Received request for CurrentPlanHandler
+2025/06/02 10:57:38.325861 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:38.330845 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:38.330901 plans_changes.go:32: planId:  e27f4a52-5077-4776-a442-ea948c063f16 branch:  main sha:  
+2025/06/02 10:57:38.330910 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:38.432483 plans_changes.go:46: locking with scope: r
+2025/06/02 10:57:38.432677 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope r, reason get current plan state
+2025/06/02 10:57:38.440734 locks.go:166: [Lock][330] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: get current plan state
+2025/06/02 10:57:38.442351 locks.go:227: [Lock][330] 0 locks found, 0 expired | reason: get current plan state
+2025/06/02 10:57:38.446397 locks.go:383: Lock acquired: ee644e70-cb21-48f3-8b42-77ffd102b459 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope r | reason: get current plan state
+2025/06/02 10:57:38.446489 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.446550 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:38.446560 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.446583 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | get current plan state | Heartbeat interval: 3s, jitter: 183.916807ms
+2025/06/02 10:57:38.448528 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:38.448600 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:38.448611 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | get current plan state | Checked out branch
+2025/06/02 10:57:38.448627 queue.go:190: [Queue] Acquired DB lock ee644e70-cb21-48f3-8b42-77ffd102b459
+2025/06/02 10:57:38.450870 result_helpers.go:173: Got contexts: 1
+2025/06/02 10:57:38.450987 queue.go:193: [Queue] Releasing DB lock ee644e70-cb21-48f3-8b42-77ffd102b459 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.452412 locks.go:501: [Lock][Delete][330] Lock released: ee644e70-cb21-48f3-8b42-77ffd102b459 for plan e27f4a52-5077-4776-a442-ea948c063f16 | get current plan state
+2025/06/02 10:57:38.452520 queue.go:198: [Queue] DB lock ee644e70-cb21-48f3-8b42-77ffd102b459 released successfully
+2025/06/02 10:57:38.453537 plans_changes.go:101: Successfully retrieved current plan state
+2025/06/02 10:57:38.453787 setup.go:59: 
+
+Completed: GET /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/current_plan in 128.240099ms
+
+2025/06/02 10:57:38.453866 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock ee644e70-cb21-48f3-8b42-77ffd102b459 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: get current plan state
+2025/06/02 10:57:38.457515 setup.go:57: 
+
+Request: PUT /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context
+
+2025/06/02 10:57:38.457695 plans_context.go:215: Received request for UpdateContextHandler
+2025/06/02 10:57:38.457728 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:38.461364 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:38.461428 plans_context.go:225: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.461491 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:38.462861 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason update contexts
+2025/06/02 10:57:38.464854 locks.go:166: [Lock][342] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: update contexts
+2025/06/02 10:57:38.465328 locks.go:227: [Lock][342] 0 locks found, 0 expired | reason: update contexts
+2025/06/02 10:57:38.467491 locks.go:383: Lock acquired: 398f3f1c-c6a6-40fe-9bcd-11cd28f639ab for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: update contexts
+2025/06/02 10:57:38.467533 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.467567 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | update contexts | Heartbeat interval: 3s, jitter: 51.025124ms
+2025/06/02 10:57:38.467582 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:38.467586 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.468863 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:38.468896 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:38.468903 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | update contexts | Checked out branch
+2025/06/02 10:57:38.468913 queue.go:190: [Queue] Acquired DB lock 398f3f1c-c6a6-40fe-9bcd-11cd28f639ab
+2025/06/02 10:57:38.469771 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:57:38.474895 result_helpers.go:173: Got contexts: 1
+2025/06/02 10:57:38.536428 context_helpers_store.go:89: StoreContext - context.MapParts length 459
+2025/06/02 10:57:38.536506 context_helpers_store.go:104: StoreContext - mapCachePath /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/projects/937532f3-b441-4fca-a384-61b11b163b48/map_cache/5058f1af8388633f609cadb75a75dc9d.json
+2025/06/02 10:57:38.543983 git.go:66: [Git] GitAddAndCommit - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main, message: Updated 1 map in context | added → 0 🪙 | total → 41391 🪙
+
++---------+------+----+
+|  NAME   | TYPE | 🪙 |
++---------+------+----+
+| [92;1m 🗺️  cwd[0m | [92mmap[0m  | [92m+0[0m |
++---------+------+----+
+2025/06/02 10:57:38.544031 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitAdd: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:57:38.544038 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.551172 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitCommit: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:57:38.551230 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.559699 queue.go:193: [Queue] Releasing DB lock 398f3f1c-c6a6-40fe-9bcd-11cd28f639ab for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:38.559761 plans_context.go:315: Successfully processed UpdateContextHandler request
+2025/06/02 10:57:38.559843 setup.go:59: 
+
+Completed: PUT /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/context in 102.328234ms
+
+2025/06/02 10:57:38.559931 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 398f3f1c-c6a6-40fe-9bcd-11cd28f639ab for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: update contexts
+2025/06/02 10:57:38.560675 locks.go:501: [Lock][Delete][342] Lock released: 398f3f1c-c6a6-40fe-9bcd-11cd28f639ab for plan e27f4a52-5077-4776-a442-ea948c063f16 | update contexts
+2025/06/02 10:57:38.560706 queue.go:198: [Queue] DB lock 398f3f1c-c6a6-40fe-9bcd-11cd28f639ab released successfully
+2025/06/02 10:57:39.026444 setup.go:57: 
+
+Request: POST /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/tell
+
+2025/06/02 10:57:39.026989 plans_exec.go:24: Received request for TellPlanHandler ip: localhost
+2025/06/02 10:57:39.027065 auth_helpers.go:442: authenticating request
+2025/06/02 10:57:39.034455 auth_helpers.go:589: UserId: 7de205bd-e851-4579-8940-4f2cbb3b21ee, Email: local-admin@plandex.ai, OrgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:39.034519 plans_exec.go:35: planId:  e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:39.034530 auth_helpers.go:648: authorizing plan
+2025/06/02 10:57:39.036633 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:57:39.036789 tell_exec.go:45: Tell: Called with plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main (TraceID: 5f527b5c534bd84ccbce375cd6bf9ca3)
+2025/06/02 10:57:39.036814 activate.go:25: Activate plan: plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main
+2025/06/02 10:57:39.036822 activate.go:28: Waiting 100ms before checking for active plan
+2025/06/02 10:57:39.137319 activate.go:30: Done waiting, checking for active plan
+2025/06/02 10:57:39.142078 activate.go:79: Tell: Model stream stored with ID da737d85-ec7c-49e6-ae3d-dd85ae696ce9 for plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main
+2025/06/02 10:57:39.142118 activate.go:80: Model stream id: da737d85-ec7c-49e6-ae3d-dd85ae696ce9
+2025/06/02 10:57:39.142129 tell_exec.go:76: Tell: Tell operation completed successfully for plan ID e27f4a52-5077-4776-a442-ea948c063f16 on branch main (TraceID: 5f527b5c534bd84ccbce375cd6bf9ca3)
+2025/06/02 10:57:39.142146 stream_helper.go:20: Response stream manager: starting plan stream
+2025/06/02 10:57:39.142168 stream_helper.go:45: Response stream manager: sending initial message
+2025/06/02 10:57:39.142231 state.go:140: Subscribing to plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:39.142264 tell_exec.go:107: [TellExec] Starting iteration 0 for plan e27f4a52-5077-4776-a442-ea948c063f16 on branch main (TraceID: 5f527b5c534bd84ccbce375cd6bf9ca3)
+2025/06/02 10:57:39.142292 tell_exec.go:127: [TellExec] Starting iteration 0 for plan e27f4a52-5077-4776-a442-ea948c063f16 on branch main
+2025/06/02 10:57:39.142301 tell_exec.go:154: Executing WillExecPlanHook
+2025/06/02 10:57:39.142308 tell_exec.go:168: execTellPlan - Setting plan status to replying
+2025/06/02 10:57:39.144547 tell_exec.go:183: execTellPlan - Plan status set to replying
+2025/06/02 10:57:39.144596 tell_exec.go:198: execTellPlan - Loading tell plan
+2025/06/02 10:57:39.144610 tell_load.go:50: [TellLoad] Tell plan - loadTellPlan - iteration: 0, missingFileResponse: , req.IsUserContinue: false, lockScope: w
+2025/06/02 10:57:39.144625 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason load tell plan
+2025/06/02 10:57:39.146921 locks.go:166: [Lock][365] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: load tell plan
+2025/06/02 10:57:39.147582 locks.go:227: [Lock][365] 0 locks found, 0 expired | reason: load tell plan
+2025/06/02 10:57:39.149222 locks.go:383: Lock acquired: 493cfb00-7c89-4cc9-88f0-e1748b137394 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: load tell plan
+2025/06/02 10:57:39.149266 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:39.149305 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Heartbeat interval: 3s, jitter: 192.066486ms
+2025/06/02 10:57:39.149355 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:39.149382 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:39.150714 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:39.150752 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:39.150759 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan | Checked out branch
+2025/06/02 10:57:39.150770 queue.go:190: [Queue] Acquired DB lock 493cfb00-7c89-4cc9-88f0-e1748b137394
+2025/06/02 10:57:39.150895 settings_helpers.go:53: GetPlanSettings - settings found in file
+2025/06/02 10:57:39.151081 tell_load.go:203: getting plan summaries
+2025/06/02 10:57:39.151122 tell_load.go:204: convoMessageIds: [9990a457-a7e4-42d3-9407-cb60859896fb a67959ad-72fc-446a-a9d4-7feef986a86f a4f0f6a6-8ca7-4881-a668-9b97b45838fd 9a440558-aabf-44cd-8174-7a739b71b38a 1b2ff164-295f-4422-9745-f909212dba72]
+2025/06/02 10:57:39.151102 tell_load.go:160: [TellLoad] storing user message | len(convo): 5 | num: 6
+2025/06/02 10:57:39.151174 tell_load.go:177: [TellLoad] storing user message
+2025/06/02 10:57:39.151527 model_request.go:82: Model config - role: names, model: gemini-2.5-pro, max output tokens: 8192
+2025/06/02 10:57:39.151573 client_stream.go:267: withStreamingRetries - will run operation
+2025/06/02 10:57:39.151644 client_stream.go:105: processChatCompletionStream - modelConfig (map[string]interface {}) (len=2) {
+ (string) (len=5) "model": (shared.ModelName) (len=14) "gemini-2.5-pro",
+ (string) (len=8) "provider": (shared.ModelProvider) (len=6) "custom"
+}
+
+2025/06/02 10:57:39.151668 client.go:195: LLM API call starting - Model: gemini-2.5-pro, Provider: custom (TraceID: d33f7894c94ad2db7e8ceca6ea1d1994)
+2025/06/02 10:57:39.152445 tell_load.go:130: [TellLoad] Tell plan - loadTellPlan - modelContext: 0
+2025/06/02 10:57:39.152689 tell_load.go:214: got 0 plan summaries
+2025/06/02 10:57:39.153314 convo_helpers.go:163: StoreConvoMessage - message.Flags.CurrentStage.TellStage: 
+2025/06/02 10:57:39.153345 convo_helpers.go:164: StoreConvoMessage - message.Subtask: <nil>
+2025/06/02 10:57:39.153354 convo_helpers.go:188: [Git] StoreConvoMessage - committing convo message: Message #6 | 💬 User prompt | 1 🪙, branch: main
+2025/06/02 10:57:39.153360 git.go:66: [Git] GitAddAndCommit - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main, message: Message #6 | 💬 User prompt | 1 🪙
+2025/06/02 10:57:39.153369 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitAdd: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:57:39.153375 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:39.157129 git.go:647: [Git] gitWriteOperation - label: GitAddAndCommit > gitCommit: plan=e27f4a52-5077-4776-a442-ea948c063f16 branch=main
+2025/06/02 10:57:39.157160 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:39.715389 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:57:40.154580 client.go:355: LLM API call successful - Status: 200 (TraceID: d33f7894c94ad2db7e8ceca6ea1d1994)
+GenPlanName: Raw content from model: 
+no namePlan function call found in response
+2025/06/02 10:57:40.154811 tell_load.go:86: Error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:40.154881 queue.go:193: [Queue] Releasing DB lock 493cfb00-7c89-4cc9-88f0-e1748b137394 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.154904 state.go:44: case apiErr := <-activePlan.StreamDoneCh: e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.154939 tell_load.go:279: execTellPlan: error loading tell plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:40.154943 state.go:45: apiErr: 500 Error: Error loading plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:40.154959 state.go:61: Error streaming plan e27f4a52-5077-4776-a442-ea948c063f16: 500 Error: Error loading plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.
+2025/06/02 10:57:40.155972 locks.go:501: [Lock][Delete][365] Lock released: 493cfb00-7c89-4cc9-88f0-e1748b137394 for plan e27f4a52-5077-4776-a442-ea948c063f16 | load tell plan
+2025/06/02 10:57:40.156013 queue.go:198: [Queue] DB lock 493cfb00-7c89-4cc9-88f0-e1748b137394 released successfully
+2025/06/02 10:57:40.157194 state.go:68: Sending error message to client
+2025/06/02 10:57:40.157238 active_plan.go:198: ActivePlan.Stream: skipping buffer for special message
+2025/06/02 10:57:40.157287 active_plan.go:199: (shared.StreamMessage) {
+ Type: (shared.StreamMessageType) (len=5) "error",
+ ReplyChunk: (string) "",
+ BuildInfo: (*shared.BuildInfo)(<nil>),
+ Description: (*shared.ConvoMessageDescription)(<nil>),
+ Error: (*shared.ApiError)(0xc002fe8340)(500 Error: Error loading plan: error generating plan name: No namePlan function call found in response. The model failed to generate a valid response.),
+ MissingFilePath: (string) "",
+ MissingFileAutoContext: (bool) false,
+ ModelStreamId: (string) "",
+ LoadContextFiles: ([]string) <nil>,
+ InitPrompt: (string) "",
+ InitReplies: ([]string) <nil>,
+ InitBuildOnly: (bool) false,
+ StreamMessages: ([]shared.StreamMessage) <nil>
+}
+
+2025/06/02 10:57:40.157320 state.go:75: Stopping any active summary stream
+2025/06/02 10:57:40.157333 state.go:78: Waiting 100ms after streaming error before canceling active plan
+2025/06/02 10:57:40.157731 stream_helper.go:94: Response stream manager: request context done
+2025/06/02 10:57:40.157774 stream_helper.go:64: Response stream manager: client stream closed
+2025/06/02 10:57:40.157784 state.go:157: UnsubscribePlan e27f4a52-5077-4776-a442-ea948c063f16 - main - 5db39133-1935-4a6d-a682-a446e943ad3c
+2025/06/02 10:57:40.157801 state.go:168: Unsubscribed from plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 5db39133-1935-4a6d-a682-a446e943ad3c
+2025/06/02 10:57:40.157807 plans_exec.go:97: Successfully processed request for TellPlanHandler
+2025/06/02 10:57:40.157814 plans_exec.go:50: Closing request body
+2025/06/02 10:57:40.157847 setup.go:59: 
+
+Completed: POST /plans/e27f4a52-5077-4776-a442-ea948c063f16/main/tell in 2.00513674s
+
+2025/06/02 10:57:40.257833 state.go:83: Cancelling active plan
+2025/06/02 10:57:40.257926 state.go:96: Deleting active plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:40.257947 state.go:107: Clearing uncommitted changes for plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:40.257958 queue.go:317: [Queue] ExecRepoOperation called for plan e27f4a52-5077-4776-a442-ea948c063f16, branch main, scope w, reason delete active plan
+2025/06/02 10:57:40.257969 active_plan.go:136: ActivePlan stream manager returned
+2025/06/02 10:57:40.258006 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 493cfb00-7c89-4cc9-88f0-e1748b137394 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: load tell plan
+2025/06/02 10:57:40.261801 locks.go:166: [Lock][425] got lockable plan id for e27f4a52-5077-4776-a442-ea948c063f16 | reason: delete active plan
+2025/06/02 10:57:40.262653 locks.go:227: [Lock][425] 0 locks found, 0 expired | reason: delete active plan
+2025/06/02 10:57:40.265922 locks.go:383: Lock acquired: 8ac7fdf1-ef3b-4cca-891a-e64ae184e441 for plan e27f4a52-5077-4776-a442-ea948c063f16 with scope w | reason: delete active plan
+2025/06/02 10:57:40.266015 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.266042 locks.go:401: [Lock][Heartbeat] Will update heartbeat for e27f4a52-5077-4776-a442-ea948c063f16 | delete active plan | Heartbeat interval: 3s, jitter: 99.236392ms
+2025/06/02 10:57:40.266066 git.go:427: [Git] gitCheckoutBranch - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:40.266096 git.go:603: [Git] gitRemoveIndexLockFileIfExists - repoDir: /tmp/plandex_server_data/orgs/6aaef103-b1ab-4c8c-8042-c121f40001ba/plans/e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.267481 git.go:443: [Git] gitCheckoutBranch - currentBranch: main
+2025/06/02 10:57:40.267513 git.go:446: [Git] gitCheckoutBranch - already on branch main, skipping
+2025/06/02 10:57:40.267519 locks.go:464: [Lock] e27f4a52-5077-4776-a442-ea948c063f16 | delete active plan | Checked out branch
+2025/06/02 10:57:40.267531 queue.go:190: [Queue] Acquired DB lock 8ac7fdf1-ef3b-4cca-891a-e64ae184e441
+2025/06/02 10:57:40.267555 state.go:119: Starting clear uncommitted changes for plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:40.267571 git.go:335: [Git] GitClearUncommittedChanges - orgId: 6aaef103-b1ab-4c8c-8042-c121f40001ba, planId: e27f4a52-5077-4776-a442-ea948c063f16, branch: main
+2025/06/02 10:57:40.271113 git.go:647: [Git] gitWriteOperation - label: GitClearUncommittedChanges > gitReset: plan=e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.271154 git.go:356: [Git] GitClearUncommittedChanges - resetting staged changes for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.273206 git.go:361: [Git] GitClearUncommittedChanges - reset staged changes finished for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.273253 git.go:647: [Git] gitWriteOperation - label: GitClearUncommittedChanges > gitClean: plan=e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.273260 git.go:371: [Git] GitClearUncommittedChanges - cleaning untracked files for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.274451 git.go:376: [Git] GitClearUncommittedChanges - clean untracked files finished for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.274479 state.go:121: Finished clear uncommitted changes for plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:40.274488 state.go:122: Error: <nil>
+2025/06/02 10:57:40.274510 queue.go:193: [Queue] Releasing DB lock 8ac7fdf1-ef3b-4cca-891a-e64ae184e441 for plan e27f4a52-5077-4776-a442-ea948c063f16
+2025/06/02 10:57:40.274539 state.go:132: Deleted active plan e27f4a52-5077-4776-a442-ea948c063f16 - main - 6aaef103-b1ab-4c8c-8042-c121f40001ba
+2025/06/02 10:57:40.274585 locks.go:388: [Lock][Heartbeat] Timeout or context canceled during heartbeat loop for lock 8ac7fdf1-ef3b-4cca-891a-e64ae184e441 for plan e27f4a52-5077-4776-a442-ea948c063f16 | reason: delete active plan
+2025/06/02 10:57:40.275247 locks.go:501: [Lock][Delete][425] Lock released: 8ac7fdf1-ef3b-4cca-891a-e64ae184e441 for plan e27f4a52-5077-4776-a442-ea948c063f16 | delete active plan
+2025/06/02 10:57:40.275280 queue.go:198: [Queue] DB lock 8ac7fdf1-ef3b-4cca-891a-e64ae184e441 released successfully
+2025/06/02 10:57:40.285794 stream_helpers.go:76: Setting model stream finished: da737d85-ec7c-49e6-ae3d-dd85ae696ce9
+2025/06/02 10:57:40.287732 stream_helpers.go:84: Set model stream finished successfully: da737d85-ec7c-49e6-ae3d-dd85ae696ce9
+2025/06/02 10:57:44.717178 handler.go:31: traces export: parse "https://https:%2F%2Flogfire-api.pydantic.dev/v1/traces": invalid port ":%2F%2Flogfire-api.pydantic.dev" after host
+2025/06/02 10:57:55.047282 setup.go:122: Received signal interrupt, shutting down gracefully...
+2025/06/02 10:57:55.047390 setup.go:132: Waiting for active plans to complete...
+2025/06/02 10:57:56.047822 setup.go:142: All active plans finished.
+2025/06/02 10:57:56.047888 setup.go:146: Cleaning up any remaining locks...
+2025/06/02 10:57:56.047896 locks.go:604: Cleaning up any active repo locks...
+2025/06/02 10:57:56.051081 locks.go:656: Successfully cleaned up all repo locks
+2025/06/02 10:57:56.051174 setup.go:157: All cleanup tasks completed
+2025/06/02 10:57:56.051185 setup.go:161: Shutting down http server...
+2025/06/02 10:57:56.051279 setup.go:170: Executing shutdown hooks...
+2025/06/02 10:57:56.051286 setup.go:175: Shutdown complete
+2025/06/02 10:57:56.051292 setup.go:73: Closing database connection...
+2025/06/02 10:57:56.051410 setup.go:78: Database connection closed

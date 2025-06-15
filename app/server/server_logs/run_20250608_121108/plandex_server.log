@@ -1,0 +1,54 @@
+2025/06/08 12:11:08 Plandex server home dir: /home/new
+2025/06/08 12:11:08 os.Getenv(PLANDEX_BASE_DIR): 
+2025/06/08 12:11:08 GOENV: 
+2025/06/08 12:11:08 File system dir: /plandex-server
+2025/06/08 12:11:08 fileMapMaxConcurrency: 6
+2025/06/08 12:11:08.974306 tracing.go:30: [TRACING] LOGFIRE_TOKEN found.
+2025/06/08 12:11:08.974349 tracing.go:49: [TRACING] OpenTelemetry resource configured for service: plandex-server
+2025/06/08 12:11:08.974378 tracing.go:71: [TRACING] Configuring OTLP HTTP exporter for Logfire at: https://logfire-api.pydantic.dev
+2025/06/08 12:11:08.974417 tracing.go:76: [TRACING] OTLP HTTP exporter created successfully.
+2025/06/08 12:11:08.974580 tracing.go:90: [TRACING] TracerProvider configured and set globally.
+2025/06/08 12:11:08.974611 main.go:44: 🚀 Plandex Server starting with tracing enabled...
+2025/06/08 12:11:08.983521 db.go:52: connected to database
+2025/06/08 12:11:08.986739 db.go:88: 
+
+Database settings:
+- idle_in_transaction_session_timeout = 90000 ms (context: user)
+- lock_timeout = 4000 ms (context: user)
+- statement_timeout = 30000 ms (context: user)
+- TimeZone = UTC (context: user)
+
+2025/06/08 12:11:08.988183 setup.go:110: Started Plandex server on port 8099
+2025/06/08 12:11:41.114531 setup.go:57: 
+
+Request: GET /plans/238a298e-0e61-43d6-b187-f702317c8e1c/main/settings
+
+2025/06/08 12:11:41.114739 settings.go:19: Received request for GetSettingsHandler
+2025/06/08 12:11:41.114780 auth_helpers.go:442: authenticating request
+2025/06/08 12:11:41.115862 auth_helpers.go:50: auth token error - no rows found
+2025/06/08 12:11:41.115919 auth_helpers.go:466: error validating auth token: invalid token
+2025/06/08 12:11:41.115972 err_helper.go:20: API Error: Invalid auth token
+2025/06/08 12:11:41.116019 setup.go:59: 
+
+Completed: GET /plans/238a298e-0e61-43d6-b187-f702317c8e1c/main/settings in 1.488081ms
+
+2025/06/08 12:11:41.116612 setup.go:57: 
+
+Request: POST /accounts/email_verifications
+
+2025/06/08 12:11:41.116680 sessions.go:19: Received request for CreateEmailVerificationHandler
+2025/06/08 12:11:41.117741 sessions.go:102: Error creating email verification: error creating email verification: pq: null value in column "id" of relation "email_verifications" violates not-null constraint
+2025/06/08 12:11:41.117805 setup.go:59: 
+
+Completed: POST /accounts/email_verifications in 1.193519ms
+
+2025/06/08 12:11:50.372772 setup.go:57: 
+
+Request: POST /accounts/email_verifications
+
+2025/06/08 12:11:50.372874 sessions.go:19: Received request for CreateEmailVerificationHandler
+2025/06/08 12:11:50.373925 sessions.go:102: Error creating email verification: error creating email verification: pq: null value in column "id" of relation "email_verifications" violates not-null constraint
+2025/06/08 12:11:50.374012 setup.go:59: 
+
+Completed: POST /accounts/email_verifications in 1.240622ms
+

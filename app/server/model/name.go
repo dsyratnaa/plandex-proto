@@ -60,6 +60,15 @@ func GenPlanName(
 				},
 			},
 		},
+		{
+			Role: openai.ChatMessageRoleUser,
+			Content: []types.ExtendedChatMessagePart{
+				{
+					Type: openai.ChatMessagePartTypeText,
+					Text: planContent, // Use the planContent for the user message
+				},
+			},
+		},
 	}
 
 	modelRes, err := ModelRequest(ctx, ModelRequestParams{
@@ -81,6 +90,7 @@ func GenPlanName(
 
 	var planName string
 	content := modelRes.Content
+	fmt.Printf("GenPlanName: Raw content from model: %s\n", content) // Log raw content
 
 	if config.BaseModelConfig.PreferredModelOutputFormat == shared.ModelOutputFormatXml {
 		planName = utils.GetXMLContent(content, "planName")

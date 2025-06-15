@@ -1,0 +1,86 @@
+
+### **Handoff Briefing: Integrating Logfire into Plandex Server**
+
+**To:** The new Plandex agent
+**From:** SuperAssistant
+**Date:** 2024-08-23
+
+**1. Ultimate Goal**
+
+The primary objective is to achieve deep observability into the `plandex-server` Go application by fully integrating it with the Logfire platform. The initial phase, which is now complete, focused on tracing all incoming API requests. The ultimate goal is to extend this by adding **detailed, custom tracing to critical business logic**, such as database interactions and calls to external AI models, to provide a complete, end-to-end view of the application's behavior for debugging and performance analysis.
+
+**2. Current State & Achievements (What Has Been Done)**
+
+The initial integration of Logfire via the OpenTelemetry Go SDK has been successfully implemented. The work is robust and follows best practices.
+
+*   **Centralized Tracing Logic:** A new package, `app/server/internal/tracing/`, was created to contain all OpenTelemetry initialization code. The `InitTracer` function within it correctly configures the OTLP HTTP exporter to send batched telemetry data to Logfire's API endpoint. It also correctly returns a `shutdown` function to ensure data is flushed on application exit.
+*   **Application Entrypoint Integration:** In `app/server/main.go`, the tracer is initialized at startup, and its shutdown is deferred. The main HTTP router has been wrapped with `otelhttp.NewHandler`, which means **every incoming API request is already being automatically traced from ingress to egress.**
+*   **Configuration:** The setup is fully configured via environment variables (`LOGFIRE_TOKEN`, `OTEL_SERVICE_NAME`, etc.), which are expected to be in an `.env` file for local development.
+*   **Major Roadblocks Solved:** The previous session successfully navigated and resolved two significant, time-consuming issues unrelated to tracing but critical for development:
+    1.  **Environment Variable Loading:** A robust shell command was implemented to correctly load the `.env` file for local execution.
+    2.  **Database Migration Conflicts:** Persistent "Dirty database" errors were fully resolved by forcing schema versions and fixing a missing PostgreSQL extension (`uuid-ossp`). **The local development environment is now stable.**
+
+**3. Validation Status (What We Know Works)**
+
+*   **Validated:** The `plandex-server` application **successfully starts without errors**. The server logs confirm that the `InitTracer` function runs, the database connects, and the application is ready to accept requests. This confirms the environment and basic setup are correct.
+*   **NOT YET Validated:** The **end-to-end data flow of traces to the Logfire platform has not been confirmed.** We have not yet run the server, made an API call, and verified that the corresponding trace appears in the Logfire UI.
+
+**4. How to Proceed (Your Immediate Tasks)**
+
+Your primary goal is to build upon this solid foundation by verifying the existing work and then adding more detailed, custom instrumentation.
+
+*   **Step 1: End-to-End Verification (Crucial First Step)**
+    *   **Action:**
+        1.  Ensure the `LOGFIRE_TOKEN` and other required environment variables are correctly set in your `.env` file.
+        2.  Run the `plandex-server` application.
+        3.  Use a tool like `curl` or Postman to make one or two API calls to any of your server's endpoints.
+        4.  Log in to the Logfire UI.
+    *   **Expected Outcome:** You should see traces appear for the "plandex-server" service. This will be the definitive confirmation that the entire pipeline is working.
+
+*   **Step 2: Add Custom Instrumentation to Core Business Logic**
+    *   **Action:** Instrument the `execTellPlan` function in `app/server/model/plan/tell_exec.go`, as it appears to be a critical part of the application.
+    1.  Modify the `execTellPlan` function signature to accept `context.Context` as its first parameter.
+    2.  Ensure the `context.Context` from the incoming HTTP request is passed down through the call stack to `execTellPlan`.
+    3.  Add the following code snippet at the beginning of the `execTellPlan` function:
+
+    ```go
+    // In app/server/model/plan/tell_exec.go
+    import (
+        "context"
+        "go.opentelemetry.io/otel"
+        "go.opentelemetry.io/otel/attribute"
+        "go.opentelemetry.io/otel/codes"
+    )
+
+    func execTellPlan(ctx context.Context, params execTellPlanParams) { // Add ctx
+        tracer := otel.Tracer("plandex-server/model/plan") // Tracer named after the package
+
+        // This will create a child span under the main HTTP request span
+        spanCtx, span := tracer.Start(ctx, "execTellPlan")
+        defer span.End()
+
+        // Add relevant attributes to the span for context
+        span.SetAttributes(
+            attribute.String("plan.id", params.plan.Id),
+            attribute.String("plan.branch", params.branch),
+            attribute.Int("plan.iteration", params.iteration),
+        )
+
+        // ... rest of your existing function logic ...
+
+        // Example of how to record an error on the span
+        // if err != nil {
+        //     span.RecordError(err)
+        //     span.SetStatus(codes.Error, "A descriptive error message")
+        // }
+    }
+    ```
+    *   **Verification:** After making this change, trigger an API call that executes this function. In Logfire, you should now see the `execTellPlan` span nested within the parent HTTP request trace, complete with the `plan.id` and other attributes.
+
+*   **Step 3: Plan for Further Instrumentation**
+    *   **Action:** Once the above is working, identify other key areas for tracing. Good candidates are:
+        *   Database calls (using an OTel library for your specific SQL driver).
+        *   Calls to external services, especially AI models.
+        *   Any complex, long-running background tasks.
+
+You are now fully briefed. Please proceed with **Step 1: End-to-End Verification**.

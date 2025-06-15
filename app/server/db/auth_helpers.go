@@ -60,9 +60,24 @@ func ValidateAuthToken(token string) (*AuthToken, error) {
 func CreateEmailVerification(email string, userId, pinHash string) error {
 	var err error
 	if userId == "" {
-		_, err = Conn.Exec("INSERT INTO email_verifications (email, pin_hash) VALUES ($1, $2)", email, pinHash)
+		_, err = Conn.Exec(`
+			INSERT INTO email_verifications (email, pin_hash)
+			VALUES ($1, $2)
+			ON CONFLICT (email) DO UPDATE SET
+				pin_hash = EXCLUDED.pin_hash,
+				created_at = NOW(),
+				auth_token_id = NULL
+		`, email, pinHash)
 	} else {
-		_, err = Conn.Exec("INSERT INTO email_verifications (email, pin_hash, user_id) VALUES ($1, $2, $3)", email, pinHash, userId)
+		_, err = Conn.Exec(`
+			INSERT INTO email_verifications (email, pin_hash, user_id)
+			VALUES ($1, $2, $3)
+			ON CONFLICT (email) DO UPDATE SET
+				pin_hash = EXCLUDED.pin_hash,
+				user_id = EXCLUDED.user_id,
+				created_at = NOW(),
+				auth_token_id = NULL
+		`, email, pinHash, userId)
 	}
 
 	if err != nil {
@@ -120,7 +135,14 @@ func validateEmailVerification(email, pin string, enforceExpiration bool, errOnA
 }
 
 func CreateSignInCode(userId, orgId, pinHash string) error {
-	_, err := Conn.Exec("INSERT INTO sign_in_codes (user_id, org_id, pin_hash) VALUES ($1, $2, $3)", userId, orgId, pinHash)
+	_, err := Conn.Exec(`
+		INSERT INTO sign_in_codes (user_id, org_id, pin_hash)
+		VALUES ($1, $2, $3)
+		ON CONFLICT (user_id, org_id) DO UPDATE SET
+			pin_hash = EXCLUDED.pin_hash,
+			created_at = NOW(),
+			auth_token_id = NULL
+	`, userId, orgId, pinHash)
 
 	if err != nil {
 		return fmt.Errorf("error creating sign in code: %v", err)

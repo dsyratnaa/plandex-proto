@@ -31,5 +31,5 @@ fi
 
 echo "Starting the local Plandex server and database..."
 
-docker compose pull plandex-server
-docker compose up
+docker compose build plandex-server
+docker compose up -d

@@ -2,7 +2,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Change to the app directory if we're not already there
-cd "$SCRIPT_DIR"
+cd "$SCRIPT_DIR" || exit
 
 echo "Clearing local mode..."
 

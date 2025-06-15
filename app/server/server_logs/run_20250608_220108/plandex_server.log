@@ -1,0 +1,23 @@
+2025/06/08 22:01:09 Plandex server home dir: /home/new
+2025/06/08 22:01:09 os.Getenv(PLANDEX_BASE_DIR): 
+2025/06/08 22:01:09 GOENV: 
+2025/06/08 22:01:09 File system dir: /plandex-server
+2025/06/08 22:01:09 fileMapMaxConcurrency: 6
+2025/06/08 22:01:09 --- RUNNING LATEST BUILD ---
+2025/06/08 22:01:09.160069 tracing.go:30: [TRACING] LOGFIRE_TOKEN found.
+2025/06/08 22:01:09.160504 tracing.go:49: [TRACING] OpenTelemetry resource configured for service: plandex-server
+2025/06/08 22:01:09.160588 tracing.go:71: [TRACING] Configuring OTLP HTTP exporter for Logfire at: https://logfire-api.pydantic.dev
+2025/06/08 22:01:09.160796 tracing.go:76: [TRACING] OTLP HTTP exporter created successfully.
+2025/06/08 22:01:09.161367 tracing.go:90: [TRACING] TracerProvider configured and set globally.
+2025/06/08 22:01:09.161407 main.go:45: 🚀 Plandex Server starting with tracing enabled...
+2025/06/08 22:01:09.179006 db.go:52: connected to database
+2025/06/08 22:01:09.193275 db.go:88: 
+
+Database settings:
+- idle_in_transaction_session_timeout = 90000 ms (context: user)
+- lock_timeout = 4000 ms (context: user)
+- statement_timeout = 30000 ms (context: user)
+- TimeZone = UTC (context: user)
+
+2025/06/08 22:01:09.199325 setup.go:110: Started Plandex server on port 8099
+2025/06/08 22:01:09.200912 setup.go:106: Failed to start server: listen tcp :8099: bind: address already in use

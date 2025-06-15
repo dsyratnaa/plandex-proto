@@ -16,6 +16,7 @@ import (
 )
 
 func main() {
+	log.Println("--- RUNNING LATEST BUILD ---")
 	// Configure the default logger to include milliseconds in timestamps
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
 

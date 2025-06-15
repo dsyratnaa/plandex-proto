@@ -105,3 +105,19 @@ func writeCurrentAuth() error {
 
 	return nil
 }
+
+func ClearAccounts() error {
+	err := os.RemoveAll(fs.HomePlandexDir)
+	if err != nil {
+		return fmt.Errorf("error removing home plandex dir: %v", err)
+	}
+
+	if fs.PlandexDir != "" {
+		err = os.RemoveAll(fs.PlandexDir)
+		if err != nil {
+			return fmt.Errorf("error removing project plandex dir: %v", err)
+		}
+	}
+
+	return nil
+}
