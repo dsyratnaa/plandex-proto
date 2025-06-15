@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -16,6 +17,9 @@ import (
 	shared "plandex-shared"
 
 	"github.com/jmoiron/sqlx"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
 )
 
 func Authenticate(w http.ResponseWriter, r *http.Request, requireOrg bool) *types.ServerAuth {
@@ -645,21 +649,50 @@ func authorizeProjectDelete(w http.ResponseWriter, projectId string, auth *types
 }
 
 func authorizePlan(w http.ResponseWriter, planId string, auth *types.ServerAuth) *db.Plan {
-	log.Println("authorizing plan")
+	return authorizePlanWithContext(context.Background(), w, planId, auth)
+}
 
-	plan, err := db.ValidatePlanAccess(planId, auth.User.Id, auth.OrgId)
+func authorizePlanWithRequest(ctx context.Context, w http.ResponseWriter, planId string, auth *types.ServerAuth) *db.Plan {
+	return authorizePlanWithContext(ctx, w, planId, auth)
+}
+
+func authorizePlanWithContext(ctx context.Context, w http.ResponseWriter, planId string, auth *types.ServerAuth) *db.Plan {
+	// Start OpenTelemetry span for plan authorization
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(ctx, "auth.authorizePlan")
+	defer span.End()
+
+	// Set span attributes
+	span.SetAttributes(
+		attribute.String("plan.id", planId),
+		attribute.String("user.id", auth.User.Id),
+		attribute.String("org.id", auth.OrgId),
+	)
+
+	log.Printf("authorizing plan: %s for user: %s (TraceID: %s)", planId, auth.User.Id, span.SpanContext().TraceID().String())
+
+	plan, err := db.ValidatePlanAccessWithContext(ctx, planId, auth.User.Id, auth.OrgId)
 
 	if err != nil {
 		log.Printf("error validating plan membership: %v\n", err)
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Plan validation failed")
 		http.Error(w, "error validating plan membership", http.StatusInternalServerError)
 		return nil
 	}
 
 	if plan == nil {
 		log.Println("user doesn't have access the plan")
+		span.SetStatus(codes.Error, "No plan access")
 		http.Error(w, "no access to plan", http.StatusUnauthorized)
 		return nil
 	}
+
+	span.SetAttributes(
+		attribute.String("plan.name", plan.Name),
+		attribute.String("plan.owner_id", plan.OwnerId),
+	)
+	span.SetStatus(codes.Ok, "Plan authorized successfully")
 
 	return plan
 }

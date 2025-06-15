@@ -29,7 +29,7 @@ func GetSettingsHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("planId: ", planId, "branch: ", branch)
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 	if plan == nil {
 		return
 	}
@@ -90,7 +90,7 @@ func UpdateSettingsHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("planId: ", planId, "branch: ", branch)
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 
 	if plan == nil {
 		return

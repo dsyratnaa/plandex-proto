@@ -27,7 +27,7 @@ func ListContextHandler(w http.ResponseWriter, r *http.Request) {
 	branch := vars["branch"]
 	log.Println("planId: ", planId, "branch: ", branch)
 
-	if authorizePlan(w, planId, auth) == nil {
+	if authorizePlanWithRequest(r.Context(), w, planId, auth) == nil {
 		return
 	}
 
@@ -91,7 +91,7 @@ func GetContextBodyHandler(w http.ResponseWriter, r *http.Request) {
 	contextId := vars["contextId"]
 	log.Println("planId:", planId, "branch:", branch, "contextId:", contextId)
 
-	if authorizePlan(w, planId, auth) == nil {
+	if authorizePlanWithRequest(r.Context(), w, planId, auth) == nil {
 		return
 	}
 
@@ -164,7 +164,7 @@ func LoadContextHandler(w http.ResponseWriter, r *http.Request) {
 	branchName := vars["branch"]
 	log.Println("planId: ", planId)
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 	if plan == nil {
 		return
 	}
@@ -224,7 +224,7 @@ func UpdateContextHandler(w http.ResponseWriter, r *http.Request) {
 	branchName := vars["branch"]
 	log.Println("planId: ", planId)
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 	if plan == nil {
 		return
 	}
@@ -330,7 +330,7 @@ func DeleteContextHandler(w http.ResponseWriter, r *http.Request) {
 	branchName := vars["branch"]
 	log.Println("planId: ", planId)
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 
 	if plan == nil {
 		return

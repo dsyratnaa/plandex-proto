@@ -27,7 +27,7 @@ func ListLogsHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("planId: ", planId, "branch: ", branch)
 
-	if authorizePlan(w, planId, auth) == nil {
+	if authorizePlanWithRequest(r.Context(), w, planId, auth) == nil {
 		return
 	}
 

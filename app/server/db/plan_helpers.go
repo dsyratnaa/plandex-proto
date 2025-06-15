@@ -16,6 +16,9 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"github.com/sashabaranov/go-openai"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
 )
 
 func CreatePlan(ctx context.Context, orgId, projectId, userId, name string) (*Plan, error) {
@@ -218,13 +221,35 @@ func SyncPlanTokens(orgId, planId, branch string) error {
 }
 
 func GetPlan(planId string) (*Plan, error) {
-	var plan Plan
+	return GetPlanWithContext(context.Background(), planId)
+}
 
+func GetPlanWithContext(ctx context.Context, planId string) (*Plan, error) {
+	// Start OpenTelemetry span for getting plan
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(ctx, "db.GetPlan")
+	defer span.End()
+
+	// Set span attributes
+	span.SetAttributes(
+		attribute.String("plan.id", planId),
+	)
+
+	var plan Plan
 	err := Conn.Get(&plan, "SELECT * FROM plans WHERE id = $1", planId)
 
 	if err != nil {
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Failed to get plan")
 		return nil, fmt.Errorf("error getting plan: %v", err)
 	}
+
+	span.SetAttributes(
+		attribute.String("plan.name", plan.Name),
+		attribute.String("plan.owner_id", plan.OwnerId),
+		attribute.String("plan.org_id", plan.OrgId),
+	)
+	span.SetStatus(codes.Ok, "Plan retrieved successfully")
 
 	return &plan, nil
 }
@@ -400,41 +425,73 @@ func DeleteOwnerPlans(orgId, projectId, userId string) error {
 }
 
 func ValidatePlanAccess(planId, userId, orgId string) (*Plan, error) {
+	return ValidatePlanAccessWithContext(context.Background(), planId, userId, orgId)
+}
+
+func ValidatePlanAccessWithContext(ctx context.Context, planId, userId, orgId string) (*Plan, error) {
+	// Start OpenTelemetry span for plan access validation
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(ctx, "db.ValidatePlanAccess")
+	defer span.End()
+
+	// Set span attributes
+	span.SetAttributes(
+		attribute.String("plan.id", planId),
+		attribute.String("user.id", userId),
+		attribute.String("org.id", orgId),
+	)
+
 	// get plan
-	plan, err := GetPlan(planId)
+	plan, err := GetPlanWithContext(ctx, planId)
 
 	if err != nil {
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Failed to get plan")
 		return nil, fmt.Errorf("error getting plan: %v", err)
 	}
 
 	if plan == nil {
+		span.SetStatus(codes.Ok, "Plan not found")
 		return nil, nil
 	}
+
+	span.SetAttributes(
+		attribute.String("plan.name", plan.Name),
+		attribute.String("plan.owner_id", plan.OwnerId),
+		attribute.String("plan.project_id", plan.ProjectId),
+	)
 
 	if plan.OrgId != orgId {
+		span.SetStatus(codes.Error, "Plan org mismatch")
 		return nil, nil
 	}
 
-	hasProjectAccess, err := ProjectExists(orgId, plan.ProjectId)
+	hasProjectAccess, err := ProjectExistsWithContext(ctx, orgId, plan.ProjectId)
 
 	if err != nil {
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Failed to validate project access")
 		return nil, fmt.Errorf("error validating project membership: %v", err)
 	}
 
 	if !hasProjectAccess {
+		span.SetStatus(codes.Error, "No project access")
 		return nil, nil
 	}
 
 	// owner has access
 	if plan.OwnerId == userId {
+		span.SetStatus(codes.Ok, "Owner access granted")
 		return plan, nil
 	}
 
 	// plan is shared with org
 	if plan.SharedWithOrgAt != nil {
+		span.SetStatus(codes.Ok, "Org shared access granted")
 		return plan, nil
 	}
 
+	span.SetStatus(codes.Error, "No plan access")
 	return nil, nil
 }
 

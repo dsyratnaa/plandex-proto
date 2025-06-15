@@ -81,7 +81,7 @@ func TellPlanHandler(w http.ResponseWriter, r *http.Request) {
 			plan:        plan,
 		},
 	)
-	err = modelPlan.Tell(clients, plan, branch, auth, &requestBody)
+	err = modelPlan.Tell(r.Context(), clients, plan, branch, auth, &requestBody)
 
 	if err != nil {
 		log.Printf("Error telling plan: %v\n", err)
@@ -200,7 +200,7 @@ func ConnectPlanHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 	if plan == nil {
 		log.Println("No plan")
 		return
@@ -237,7 +237,7 @@ func StopPlanHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if authorizePlan(w, planId, auth) == nil {
+	if authorizePlanWithRequest(r.Context(), w, planId, auth) == nil {
 		return
 	}
 
@@ -314,7 +314,7 @@ func RespondMissingFileHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 	if plan == nil {
 		return
 	}
@@ -409,7 +409,7 @@ func AutoLoadContextHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	plan := authorizePlan(w, planId, auth)
+	plan := authorizePlanWithRequest(r.Context(), w, planId, auth)
 	if plan == nil {
 		return
 	}
@@ -574,6 +574,21 @@ func GetBuildStatusHandler(w http.ResponseWriter, r *http.Request) {
 
 func authorizePlanExecUpdate(w http.ResponseWriter, planId string, auth *types.ServerAuth) *db.Plan {
 	plan := authorizePlan(w, planId, auth)
+	if plan == nil {
+		return nil
+	}
+
+	if plan.OwnerId != auth.User.Id && !auth.HasPermission(shared.PermissionUpdateAnyPlan) {
+		log.Println("User does not have permission to update plan")
+		http.Error(w, "User does not have permission to update plan", http.StatusForbidden)
+		return nil
+	}
+
+	return plan
+}
+
+func authorizePlanExecUpdateWithRequest(ctx context.Context, w http.ResponseWriter, planId string, auth *types.ServerAuth) *db.Plan {
+	plan := authorizePlanWithRequest(ctx, w, planId, auth)
 	if plan == nil {
 		return nil
 	}

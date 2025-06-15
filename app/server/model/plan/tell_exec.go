@@ -25,10 +25,10 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func Tell(clients map[string]model.ClientInfo, plan *db.Plan, branch string, auth *types.ServerAuth, req *shared.TellPlanRequest) error {
+func Tell(ctx context.Context, clients map[string]model.ClientInfo, plan *db.Plan, branch string, auth *types.ServerAuth, req *shared.TellPlanRequest) error {
 	// Start OpenTelemetry span for Tell operation
 	tracer := otel.Tracer("plandex-server")
-	ctx, span := tracer.Start(context.Background(), "plan.Tell",
+	ctx, span := tracer.Start(ctx, "plan.Tell",
 		trace.WithAttributes(
 			attribute.String("plan.id", plan.Id),
 			attribute.String("plan.branch", branch),
