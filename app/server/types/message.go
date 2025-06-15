@@ -1,6 +1,7 @@
 package types
 
 import (
+	"log"
 	shared "plandex-shared"
 	"time"
 
@@ -240,7 +241,9 @@ func NewStreamCompletionAccumulator() *StreamCompletionAccumulator {
 
 // AddContent appends new content from a streaming chunk
 func (a *StreamCompletionAccumulator) AddContent(content string) {
+	log.Printf("StreamCompletionAccumulator.AddContent: Adding content: '%s' (length: %d)", content, len(content))
 	a.content.WriteString(content)
+	log.Printf("StreamCompletionAccumulator.AddContent: Total accumulated: '%s' (length: %d)", a.content.String(), a.content.Len())
 }
 
 // SetUsage sets the usage information, typically from the final chunk

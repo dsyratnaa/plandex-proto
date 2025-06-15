@@ -90,7 +90,11 @@ func GenPlanName(
 
 	var planName string
 	content := modelRes.Content
-	fmt.Printf("GenPlanName: Raw content from model: %s\n", content) // Log raw content
+
+	// Enhanced debugging for function call parsing
+	fmt.Printf("GenPlanName: Raw content from model: '%s'\n", content)
+	fmt.Printf("GenPlanName: Content length: %d\n", len(content))
+	fmt.Printf("GenPlanName: Content bytes: %v\n", []byte(content))
 
 	if config.BaseModelConfig.PreferredModelOutputFormat == shared.ModelOutputFormatXml {
 		planName = utils.GetXMLContent(content, "planName")
@@ -99,16 +103,19 @@ func GenPlanName(
 		}
 	} else {
 		if content == "" {
-			fmt.Println("no namePlan function call found in response")
+			fmt.Println("GenPlanName: ERROR - no namePlan function call found in response - content is empty")
 			return "", fmt.Errorf("No namePlan function call found in response. The model failed to generate a valid response.")
 		}
 
+		fmt.Printf("GenPlanName: Attempting to unmarshal content: '%s'\n", content)
 		var nameRes prompts.PlanNameRes
 		err = json.Unmarshal([]byte(content), &nameRes)
 		if err != nil {
-			fmt.Printf("Error unmarshalling plan description response: %v\n", err)
+			fmt.Printf("GenPlanName: Error unmarshalling plan description response: %v\n", err)
+			fmt.Printf("GenPlanName: Failed content was: '%s'\n", content)
 			return "", err
 		}
+		fmt.Printf("GenPlanName: Successfully unmarshaled, planName: '%s'\n", nameRes.PlanName)
 		planName = nameRes.PlanName
 	}
 

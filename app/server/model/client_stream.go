@@ -125,6 +125,7 @@ func processChatCompletionStream(
 	receivedFirstChunk := false
 
 	// Process stream until EOF or error
+	log.Printf("Stream Processing: Starting streaming loop")
 	for {
 		select {
 		case <-streamCtx.Done():
@@ -140,9 +141,12 @@ func processChatCompletionStream(
 				return accumulator.Result(true, fmt.Errorf("stream timed out due to inactivity. The model is not responding.")), nil
 			}
 		default:
+			log.Printf("Stream Processing: About to call stream.Recv()")
 			response, err := stream.Recv()
 			if err == io.EOF {
+				log.Printf("Stream Processing: Received EOF, streamFinished: %t", streamFinished)
 				if streamFinished {
+					log.Printf("Stream Processing: Returning final result with content: '%s'", accumulator.Content())
 					return accumulator.Result(false, nil), nil
 				}
 
@@ -150,9 +154,12 @@ func processChatCompletionStream(
 				return accumulator.Result(true, err), err
 			}
 			if err != nil {
+				log.Printf("Stream Processing: Error receiving chunk: %v", err)
 				err = fmt.Errorf("error receiving stream chunk: %w", err)
 				return accumulator.Result(true, err), err
 			}
+
+			log.Printf("Stream Processing: Received response chunk")
 
 			if response.ID != "" {
 				accumulator.SetGenerationId(response.ID)
@@ -194,34 +201,48 @@ func processChatCompletionStream(
 			if !emptyChoices {
 				choice := response.Choices[0]
 
+				// Extract content FIRST, before checking finish reason
+				if req.Tools != nil {
+					if choice.Delta.ToolCalls != nil {
+						toolCall := choice.Delta.ToolCalls[0]
+						content = toolCall.Function.Arguments
+						log.Printf("Stream Processing: Found tool call, arguments: '%s'", content)
+					} else {
+						log.Printf("Stream Processing: Tools enabled but no tool calls in delta")
+					}
+				} else {
+					if choice.Delta.Content != "" {
+						content = choice.Delta.Content
+						log.Printf("Stream Processing: Found content: '%s'", content)
+					} else {
+						log.Printf("Stream Processing: No content in delta")
+					}
+				}
+
+				// Check finish reason AFTER extracting content
 				if choice.FinishReason != "" {
 					if choice.FinishReason == "error" {
 						err = fmt.Errorf("model stopped with error status | The model is not responding.")
 						return accumulator.Result(true, err), err
 					} else {
+						log.Printf("Stream Processing: Finish reason: %s, will set streamFinished after processing content", choice.FinishReason)
+						// Don't continue here - let the content be processed first
 						// Reset the timer for the usage chunk
 						if !timer.Stop() {
 							<-timer.C
 						}
 						timer.Reset(USAGE_CHUNK_TIMEOUT)
 						streamFinished = true
-						continue
+						// Don't continue - let content be processed
 					}
 				}
-
-				if req.Tools != nil {
-					if choice.Delta.ToolCalls != nil {
-						toolCall := choice.Delta.ToolCalls[0]
-						content = toolCall.Function.Arguments
-					}
-				} else {
-					if choice.Delta.Content != "" {
-						content = choice.Delta.Content
-					}
-				}
+			} else {
+				log.Printf("Stream Processing: Empty choices")
 			}
 
+			log.Printf("Stream Processing: About to add content: '%s' (length: %d)", content, len(content))
 			accumulator.AddContent(content)
+			log.Printf("Stream Processing: Accumulated content so far: '%s'", accumulator.Content())
 			// pass the chunk and the accumulated content to the callback
 			if onStream != nil {
 				shouldReturn := onStream(content, accumulator.Content())

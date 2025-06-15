@@ -156,6 +156,13 @@ func ModelRequest(
 		return nil, err
 	}
 
+	// Enhanced debugging for ModelRequest response
+	log.Printf("ModelRequest: Received response - Content: '%s', Length: %d", res.Content, len(res.Content))
+	if res.Usage != nil {
+		log.Printf("ModelRequest: Usage - Input: %d, Output: %d", res.Usage.PromptTokens, res.Usage.CompletionTokens)
+	}
+	log.Printf("ModelRequest: Error: '%s', Stopped: %t", res.Error, res.Stopped)
+
 	if modelConfig.BaseModelConfig.StopDisabled && len(stop) > 0 {
 		earliest := len(res.Content)
 		found := false
