@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/jmoiron/sqlx"
@@ -104,5 +106,97 @@ func MigrationsUpWithDir(dir string) error {
 }
 
 func migrationsUp(dir string) error {
+	// Create migrations table if it doesn't exist
+	_, err := Conn.Exec(`
+		CREATE TABLE IF NOT EXISTS schema_migrations (
+			version VARCHAR(255) PRIMARY KEY,
+			applied_at TIMESTAMP NOT NULL DEFAULT NOW()
+		)
+	`)
+	if err != nil {
+		return fmt.Errorf("error creating migrations table: %v", err)
+	}
+
+	// Get list of applied migrations
+	appliedMigrations := make(map[string]bool)
+	rows, err := Conn.Query("SELECT version FROM schema_migrations")
+	if err != nil {
+		return fmt.Errorf("error querying applied migrations: %v", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var version string
+		if err := rows.Scan(&version); err != nil {
+			return fmt.Errorf("error scanning migration version: %v", err)
+		}
+		appliedMigrations[version] = true
+	}
+
+	// Read migration files from directory
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		return fmt.Errorf("error reading migrations directory: %v", err)
+	}
+
+	// Sort migration files
+	var migrationFiles []string
+	for _, file := range files {
+		if strings.HasSuffix(file.Name(), ".up.sql") {
+			version := strings.TrimSuffix(file.Name(), ".up.sql")
+			if !appliedMigrations[version] {
+				migrationFiles = append(migrationFiles, file.Name())
+			}
+		}
+	}
+
+	if len(migrationFiles) == 0 {
+		log.Println("migration state is up to date")
+		return nil
+	}
+
+	// Sort migration files by name (which should be timestamp-based)
+	sort.Strings(migrationFiles)
+
+	// Apply each migration
+	for _, filename := range migrationFiles {
+		version := strings.TrimSuffix(filename, ".up.sql")
+		log.Printf("applying migration: %s", version)
+
+		// Read migration file
+		content, err := os.ReadFile(filepath.Join(dir, filename))
+		if err != nil {
+			return fmt.Errorf("error reading migration file %s: %v", filename, err)
+		}
+
+		// Execute migration in a transaction
+		tx, err := Conn.Begin()
+		if err != nil {
+			return fmt.Errorf("error starting transaction for migration %s: %v", version, err)
+		}
+
+		// Execute the migration SQL
+		_, err = tx.Exec(string(content))
+		if err != nil {
+			tx.Rollback()
+			return fmt.Errorf("error executing migration %s: %v", version, err)
+		}
+
+		// Record the migration as applied
+		_, err = tx.Exec("INSERT INTO schema_migrations (version) VALUES ($1)", version)
+		if err != nil {
+			tx.Rollback()
+			return fmt.Errorf("error recording migration %s: %v", version, err)
+		}
+
+		// Commit the transaction
+		err = tx.Commit()
+		if err != nil {
+			return fmt.Errorf("error committing migration %s: %v", version, err)
+		}
+
+		log.Printf("migration %s applied successfully", version)
+	}
+
 	return nil
 }

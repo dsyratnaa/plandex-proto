@@ -45,6 +45,7 @@ func Tell(clients map[string]model.ClientInfo, plan *db.Plan, branch string, aut
 	log.Printf("Tell: Called with plan ID %s on branch %s (TraceID: %s)\n", plan.Id, branch, span.SpanContext().TraceID().String())
 
 	_, err := activatePlan(
+		ctx,
 		clients,
 		plan,
 		branch,

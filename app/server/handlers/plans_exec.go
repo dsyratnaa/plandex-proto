@@ -146,7 +146,7 @@ func BuildPlanHandler(w http.ResponseWriter, r *http.Request) {
 			plan:        plan,
 		},
 	)
-	numBuilds, err := modelPlan.Build(clients, plan, branch, auth, requestBody.SessionId)
+	numBuilds, err := modelPlan.Build(r.Context(), clients, plan, branch, auth, requestBody.SessionId)
 
 	if err != nil {
 		log.Printf("Error building plan: %v\n", err)

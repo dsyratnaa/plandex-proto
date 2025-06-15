@@ -13,6 +13,10 @@ import (
 	"time"
 
 	shared "plandex-shared"
+
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
 )
 
 func (fileState *activeBuildStreamFileState) buildStructuredEdits() {
@@ -34,7 +38,25 @@ func (fileState *activeBuildStreamFileState) buildStructuredEdits() {
 		return
 	}
 
-	buildCtx, cancelBuild := context.WithCancel(activePlan.Ctx)
+	// Start OpenTelemetry span for buildStructuredEdits operation
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(activePlan.Ctx, "syntax.apply_structured_edits")
+	defer span.End()
+
+	// Set span attributes
+	span.SetAttributes(
+		attribute.String("plan.id", planId),
+		attribute.String("plan.branch", branch),
+		attribute.String("file.path", filePath),
+		attribute.String("file.description", activeBuild.FileDescription),
+		attribute.Bool("has_parser", parser != nil),
+		attribute.Int("original_file_size", len(originalFile)),
+		attribute.Int("proposed_content_size", len(activeBuild.FileContent)),
+	)
+
+	log.Printf("buildStructuredEdits - %s - starting structured edits (TraceID: %s)\n", filePath, span.SpanContext().TraceID().String())
+
+	buildCtx, cancelBuild := context.WithCancel(ctx)
 
 	proposedContent := activeBuild.FileContent
 	desc := activeBuild.FileDescription
@@ -153,6 +175,8 @@ func (fileState *activeBuildStreamFileState) buildStructuredEdits() {
 
 		buildRaceResult, err := fileState.buildRace(buildCtx, cancelBuild, buildRaceParams)
 		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, "Build race failed")
 			if apiErr, ok := err.(*shared.ApiError); ok {
 				activePlan.StreamDoneCh <- apiErr
 				return
@@ -186,10 +210,15 @@ func (fileState *activeBuildStreamFileState) buildStructuredEdits() {
 	replacements, err := diff_pkg.GetDiffReplacements(originalFile, updated)
 	if err != nil {
 		log.Printf("buildStructuredEdits - error getting diff replacements: %v\n", err)
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Failed to get diff replacements")
 		fileState.onBuildFileError(fmt.Errorf("error getting diff replacements: %v", err))
 		return
 	}
 	log.Printf("buildStructuredEdits - %s - got %d replacements\n", filePath, len(replacements))
+
+	// Add replacement count to span attributes
+	span.SetAttributes(attribute.Int("replacements.count", len(replacements)))
 
 	for _, replacement := range replacements {
 		replacement.Summary = strings.TrimSpace(desc)
@@ -207,6 +236,7 @@ func (fileState *activeBuildStreamFileState) buildStructuredEdits() {
 	}
 
 	log.Printf("buildStructuredEdits - %s - finishing build file\n", filePath)
+	span.SetStatus(codes.Ok, "Structured edits completed successfully")
 	fileState.onFinishBuildFile(&res)
 }
 

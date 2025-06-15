@@ -49,8 +49,9 @@ func InitTracer(serviceName string) (func(context.Context) error, error) {
 	log.Printf("[TRACING] OpenTelemetry resource configured for service: %s", serviceName)
 
 	// Configure OTLP HTTP exporter options
+	// The library handles adding the scheme. Just provide the host.
 	opts := []otlptracehttp.Option{
-		otlptracehttp.WithEndpoint(strings.TrimPrefix(otelExporterOTLPEndpoint, "https://")), // e.g., "logfire-api.pydantic.dev" or "logfire-api.pydantic.dev:443"
+		otlptracehttp.WithEndpoint("logfire-api.pydantic.dev"), // The library will add https:// automatically
 		otlptracehttp.WithHeaders(map[string]string{
 			"Authorization": fmt.Sprintf("Bearer %s", logfireToken), // Standard Bearer token
 			"Content-Type":  "application/x-protobuf",               // Logfire expects protobuf

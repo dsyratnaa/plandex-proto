@@ -1,6 +1,7 @@
 package plan
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,16 +15,35 @@ import (
 	"time"
 
 	shared "plandex-shared"
+
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
 )
 
 func Build(
+	ctx context.Context,
 	clients map[string]model.ClientInfo,
 	plan *db.Plan,
 	branch string,
 	auth *types.ServerAuth,
 	sessionId string,
 ) (int, error) {
-	log.Printf("Build: Called with plan ID %s on branch %s\n", plan.Id, branch)
+	// Start OpenTelemetry span for Build operation
+	tracer := otel.Tracer("plandex-server")
+	ctx, span := tracer.Start(ctx, "plan.build")
+	defer span.End()
+
+	// Set span attributes
+	span.SetAttributes(
+		attribute.String("plan.id", plan.Id),
+		attribute.String("plan.branch", branch),
+		attribute.String("user.id", auth.User.Id),
+		attribute.String("org.id", auth.OrgId),
+		attribute.String("session.id", sessionId),
+	)
+
+	log.Printf("Build: Called with plan ID %s on branch %s (TraceID: %s)\n", plan.Id, branch, span.SpanContext().TraceID().String())
 	log.Println("Build: Starting Build operation")
 
 	state := activeBuildStreamState{
@@ -44,17 +64,20 @@ func Build(
 
 	onErr := func(err error) (int, error) {
 		log.Printf("Build error: %v\n", err)
+		span.RecordError(err)
+		span.SetStatus(codes.Error, "Build failed")
 		streamDone()
 		return 0, err
 	}
 
-	pendingBuildsByPath, err := state.loadPendingBuilds(sessionId)
+	pendingBuildsByPath, err := state.loadPendingBuilds(ctx, sessionId)
 	if err != nil {
 		return onErr(err)
 	}
 
 	if len(pendingBuildsByPath) == 0 {
 		log.Println("No pending builds")
+		span.SetStatus(codes.Ok, "No pending builds")
 		streamDone()
 		return 0, nil
 	}
@@ -72,6 +95,7 @@ func Build(
 		go state.queueBuilds(pendingBuilds)
 	}
 
+	span.SetStatus(codes.Ok, "Build initiated successfully")
 	return len(pendingBuildsByPath), nil
 }
 
