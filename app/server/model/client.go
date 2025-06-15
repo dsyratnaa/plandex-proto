@@ -266,7 +266,14 @@ func createChatCompletionStreamExtended(
 		return nil, fmt.Errorf("error marshaling request: %w", err)
 	}
 
-	// log.Println("request jsonBody", string(jsonBody))
+	// Add request body to tracing attributes
+	span.SetAttributes(
+		attribute.String("http.request.body.text", string(jsonBody)),
+		attribute.Int("http.request.body.size", len(jsonBody)),
+	)
+
+	// Log request body for debugging
+	log.Printf("LLM Request Body (TraceID: %s): %s", span.SpanContext().TraceID().String(), string(jsonBody))
 
 	// Create new request
 	var url string
@@ -324,6 +331,16 @@ func createChatCompletionStreamExtended(
 			span.SetStatus(codes.Error, fmt.Sprintf("Failed to read error response: %v", err))
 			return nil, fmt.Errorf("error reading error response: %w", err)
 		}
+
+		// Add error response body to tracing attributes
+		span.SetAttributes(
+			attribute.String("http.response.body.text", string(body)),
+			attribute.Int("http.response.body.size", len(body)),
+		)
+
+		// Log error response for debugging
+		log.Printf("LLM Error Response (TraceID: %s): Status %d, Body: %s",
+			span.SpanContext().TraceID().String(), resp.StatusCode, string(body))
 
 		httpErr := &HTTPError{
 			StatusCode: resp.StatusCode,
@@ -407,7 +424,15 @@ func (stream *StreamReader[T]) Recv() (*T, error) {
 		// Extract the data
 		data := strings.TrimPrefix(line, "data: ")
 
-		// log.Println("\n\n--- stream data:\n", data, "\n\n")
+		// Log stream data for debugging (first few chunks and completion)
+		if data == "[DONE]" {
+			log.Println("LLM Stream: [DONE] - Stream completed")
+		} else {
+			// Log first few chunks to see the response format
+			if len(data) > 0 {
+				log.Printf("LLM Stream Data: %s", data)
+			}
+		}
 
 		// Check for stream completion
 		if data == "[DONE]" {
@@ -418,6 +443,7 @@ func (stream *StreamReader[T]) Recv() (*T, error) {
 		var response T
 		err = stream.unmarshaler.Unmarshal([]byte(data), &response)
 		if err != nil {
+			log.Printf("LLM Stream Parse Error: %v, Data: %s", err, data)
 			stream.errAccumulator.Add(err)
 			continue
 		}
